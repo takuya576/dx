@@ -1,0 +1,106 @@
+{
+    "workbench.colorTheme": "Monokai",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "omnisharp.useModernNet": false,
+    "C_Cpp.errorSquiggles": "enabled",
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "terminal.integrated.inheritEnv": false,
+    // "[python]": {
+    //     "editor.formatOnType": true,
+    //     "editor.defaultFormatter": "ms-python.black-formatter"
+    // },
+    "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "none",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "python.linting.mypyEnabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length",
+        "120"
+    ],
+    "files.trimTrailingWhitespace": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.autoImportUserSymbols": true,
+    "window.commandCenter": true,
+    //----latex settings----
+    // ---------- Language ----------
+    "[tex]": {
+        // スニペット補完中にも補完を使えるようにする
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        // インデント幅を2にする
+        "editor.tabSize": 2
+    },
+    "[latex]": {
+        // スニペット補完中にも補完を使えるようにする
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        // インデント幅を2にする
+        "editor.tabSize": 2
+    },
+    "[bibtex]": {
+        // インデント幅を2にする
+        "editor.tabSize": 2
+    },
+    // ---------- LaTeX Workshop ----------
+    //viewerをタブで開く
+    "latex-workshop.view.pdf.viewer": "tab",
+    //intellisenseを有効にする
+    "latex-workshop.intellisense.package.enabled": true,
+    //生成ファイルを格納するディレクトリ名
+    "latex-workshop.latex.outDir": "latex_out",
+    //自動でPDFを更新
+    "latex-workshop.latex.autoBuild.run": "onFileChange",
+    //生成ファイルで削除するファイル
+    "latex-workshop.latex.autoClean.run": "onBuilt",
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.ist",
+        "*.fls",
+        "*.log",
+        "*.fdb_latexmk",
+        "*.snm",
+        "*.nav",
+        "*.dvi",
+        "*.synctex.gz"
+    ],
+    //ビルドの動作
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        },
+    ],
+    //ビルドのコマンド
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-silent",
+                "-outdir=%OUTDIR%",
+                "%DOC%.tex"
+            ]
+        },
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+}
