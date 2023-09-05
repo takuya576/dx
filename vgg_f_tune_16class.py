@@ -12,8 +12,12 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from torchvision import models
 
-from pythonlibs.my_torch_lib import (evaluate_history, fit, show_images_labels,
-                                     torch_seed)
+from pythonlibs.my_torch_lib import (
+    evaluate_history,
+    fit,
+    show_images_labels,
+    torch_seed,
+)
 
 # 開始時間を記録
 start_time = time.time()
@@ -24,8 +28,8 @@ batch_size = int(args[1])
 device = torch.device(f"cuda:{int(args[2])}" if torch.cuda.is_available() else "cpu")
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-which_data = "data2"
-data_dir = os.path.join("coins_data_sin", which_data)
+which_data = "data4_all_cases"
+data_dir = os.path.join("coins_data", which_data)
 
 train_dir = os.path.join(data_dir, "train")
 test_dir = os.path.join(data_dir, "val")
@@ -39,7 +43,7 @@ Time = now.strftime("%H-%M-%S")
 when = f"{Date}_{Time}"
 
 save_dir = os.path.join("result", which_data, f"{when}_{program_name}")
-
+os.makedirs(save_dir, exist_ok=True)
 
 test_transform = transforms.Compose(
     [
@@ -135,4 +139,7 @@ end_time = time.time()
 
 # 実行時間を計算して表示
 execution_time = end_time - start_time
-print("実行時間:", execution_time, "秒")
+# ファイルを開く
+with open(f"{save_dir}/{program_name}_abst.txt", "w") as f:
+    # ファイルに出力する
+    print("実行時間:", execution_time, "秒", file=f)
