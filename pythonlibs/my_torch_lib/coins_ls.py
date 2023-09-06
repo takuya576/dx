@@ -35,7 +35,7 @@ def make_ls(device, epoch, test_loader, save_dir, net):
     )
     plt.xlabel("Component 1")
     plt.ylabel("Component 2")
-    os.makedirs(os.path.join(f"{save_dir}", "latent_space"))
+    os.makedirs(os.path.join(f"{save_dir}", "latent_space"), exist_ok=True)
     plt.savefig(
         os.path.join(
             f"{save_dir}",

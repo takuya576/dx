@@ -5,7 +5,7 @@ import shutil
 random.seed(123)
 
 # os.makedirs("./coins_data", exist_ok=True)
-dataset_dir = "./coins_data/data4_all_cases"
+dataset_dir = "./coins_data/data4_1case"
 
 class_list = [
     str(i1) + str(i2) + str(i3) + str(i4)
@@ -14,7 +14,7 @@ class_list = [
     for i3 in range(0, 2)
     for i4 in range(0, 2)
 ]
-val_rate = 0.2
+val_rate = 0.0
 
 os.makedirs(os.path.join(dataset_dir, "train"), exist_ok=True)
 os.makedirs(os.path.join(dataset_dir, "val"), exist_ok=True)
@@ -32,11 +32,11 @@ for class_name in class_list:
     random.shuffle(image_files)
     num_val = int(len(image_files) * val_rate)
 
-    # for test
-    for file in image_files[:num_val]:
-        src = os.path.join(image_dir, file)
-        dst = os.path.join(dataset_dir, "val", class_name)
-        shutil.copy(src, dst)
+    # # for test
+    # for file in image_files[:num_val]:
+    #     src = os.path.join(image_dir, file)
+    #     dst = os.path.join(dataset_dir, "val", class_name)
+    #     shutil.copy(src, dst)
 
     # for train
     for file in image_files[num_val:]:
