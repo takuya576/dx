@@ -29,8 +29,8 @@ device = torch.device(f"cuda:{int(args[2])}" if torch.cuda.is_available() else "
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 which_data = "data4"
-data1_dir = os.path.join("coins_data", f"{which_data}_all_cases")
-data2_dir = os.path.join("coins_data", f"{which_data}_1case")
+data1_dir = os.path.join("/home/sakamoto/dx/coins_data", f"{which_data}_all_cases")
+data2_dir = os.path.join("/home/sakamoto/dx/coins_data", f"{which_data}_1case")
 
 train1_dir = os.path.join(data1_dir, "train")
 train2_dir = os.path.join(data2_dir, "train")
@@ -44,7 +44,9 @@ Time = now.strftime("%H-%M-%S")
 # Create the directory name
 when = f"{Date}_{Time}"
 
-save_dir = os.path.join("result", which_data, f"{when}_{program_name}")
+save_dir = os.path.join(
+    "/home/sakamoto/dx/result", which_data, f"{when}_{program_name}"
+)
 os.makedirs(save_dir, exist_ok=True)
 
 

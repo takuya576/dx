@@ -673,13 +673,13 @@ def evaluate_vib_history(history, program_name, save_dir):
     datalines = [
         f"初期状態_all_cases: 損失: {history[0,3]:.5f} 精度: {history[0,8]:.5f}\n",
         f"最終状態_all_cases: 損失: {history[-1,3]:.5f} 精度: {history[-1,8]:.5f}\n",
-        f"max_all_cases: 損失: {history[max_index,3]:.5f} 精度: {history[max_index,8]:.5f}\n",
+        f"max_all_cases: 損失: {history[max_index,3]:.5f} 精度: {history[max_index,8]:.5f}\n\n",
     ]
     result_f.writelines(datalines)
     datalines = [
         f"初期状態_1case: 損失: {history[0,11]:.5f} 精度: {history[0,16]:.5f}\n",
         f"最終状態_1case: 損失: {history[-1,11]:.5f} 精度: {history[-1,16]:.5f}\n",
-        f"max_1case: 損失: {history[max_index2,11]:.5f} 精度: {history[max_index2,16]:.5f}\n",
+        f"max_1case: 損失: {history[max_index2,11]:.5f} 精度: {history[max_index2,16]:.5f}\n\n",
     ]
     result_f.writelines(datalines)
     result_f.close()
