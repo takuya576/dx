@@ -139,6 +139,6 @@ end_time = time.time()
 # 実行時間を計算して表示
 execution_time = end_time - start_time
 # ファイルを開く
-with open(f"{save_dir}/{program_name}_abst.txt", "w") as f:
+with open(f"{save_dir}/{program_name}_abst.txt", "a") as f:
     # ファイルに出力する
     print("実行時間:", execution_time, "秒", file=f)

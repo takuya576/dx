@@ -13,8 +13,8 @@ from torch.utils.data import DataLoader
 from torchvision import models
 
 from pythonlibs.my_torch_lib import (
-    evaluate_history,
-    fit,
+    comp_val_acc,
+    evaluate_vib_history,
     show_images_labels,
     torch_seed,
 )
@@ -28,11 +28,13 @@ batch_size = int(args[1])
 device = torch.device(f"cuda:{int(args[2])}" if torch.cuda.is_available() else "cpu")
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-which_data = "data4_all_cases"
-data_dir = os.path.join("coins_data", which_data)
+which_data = "data4"
+data1_dir = os.path.join("coins_data", f"{which_data}_all_cases")
+data2_dir = os.path.join("coins_data", f"{which_data}_1case")
 
-train_dir = os.path.join(data_dir, "train")
-test_dir = os.path.join(data_dir, "val")
+train1_dir = os.path.join(data1_dir, "train")
+train2_dir = os.path.join(data2_dir, "train")
+test1_dir = os.path.join(data1_dir, "val")
 
 # Get the current date and time
 now = datetime.now()
@@ -44,6 +46,7 @@ when = f"{Date}_{Time}"
 
 save_dir = os.path.join("result", which_data, f"{when}_{program_name}")
 os.makedirs(save_dir, exist_ok=True)
+
 
 test_transform = transforms.Compose(
     [
@@ -73,56 +76,63 @@ classes = [
     for i4 in range(0, 2)
 ]
 
-train_data = datasets.ImageFolder(train_dir, transform=train_transform)
+train1_data = datasets.ImageFolder(train1_dir, transform=test_transform)
 
-train_data2 = datasets.ImageFolder(train_dir, transform=test_transform)
+train2_data = datasets.ImageFolder(train2_dir, transform=test_transform)
 
-test_data = datasets.ImageFolder(test_dir, transform=test_transform)
+test1_data = datasets.ImageFolder(test1_dir, transform=test_transform)
 
-train_loader = DataLoader(
-    train_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=True
-)
-
-test_loader = DataLoader(
-    test_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=False
+train_loader1 = DataLoader(
+    train1_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=True
 )
 
 train_loader2 = DataLoader(
-    train_data2, batch_size=50, num_workers=2, pin_memory=True, shuffle=True
-)
-test_loader2 = DataLoader(
-    test_data, batch_size=50, num_workers=2, pin_memory=True, shuffle=True
+    train2_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=True
 )
 
-net = models.resnet18(pretrained=True)
+test_loader1 = DataLoader(
+    test1_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=False
+)
 
-for param in net.parameters():
-    param.requires_grad = False
+test_loader = DataLoader(
+    test1_data, batch_size=50, num_workers=2, pin_memory=True, shuffle=True
+)
+
+net1 = models.resnet18(pretrained=True)
+net2 = models.resnet18(pretrained=True)
 
 torch_seed()
 
-fc_in_features = net.fc.in_features
-net.fc = nn.Linear(fc_in_features, 16)
+fc_in_features = net1.fc.in_features
+fc_in_features = net2.fc.in_features
+net1.fc = nn.Linear(fc_in_features, 16)
+net2.fc = nn.Linear(fc_in_features, 16)
 
-net = net.to(device)
+
+net1 = net1.to(device)
+net2 = net2.to(device)
 
 lr = 0.001
 
 criterion = nn.CrossEntropyLoss()
 
-optimizer = optim.SGD(net.fc.parameters(), lr=lr, momentum=0.9)
+optimizer1 = optim.SGD(net1.parameters(), lr=lr, momentum=0.9)
+optimizer2 = optim.SGD(net2.parameters(), lr=lr, momentum=0.9)
 
-history = np.zeros((0, 9))
+history = np.zeros((0, 17))
 
-num_epochs = 500
+num_epochs = 20
 
-history = fit(
-    net,
-    optimizer,
+history = comp_val_acc(
+    net1,
+    net2,
+    optimizer1,
+    optimizer2,
     criterion,
     num_epochs,
-    train_loader,
-    test_loader,
+    train_loader1,
+    train_loader2,
+    test_loader1,
     device,
     history,
     program_name,
@@ -131,16 +141,20 @@ history = fit(
 )
 
 
-evaluate_history(history, program_name, save_dir)
+evaluate_vib_history(history, program_name, save_dir)
 
-show_images_labels(test_loader2, classes, net, device, program_name, save_dir)
+show_images_labels(
+    test_loader, classes, net1, device, program_name + "_all_cases", save_dir
+)
+show_images_labels(
+    test_loader, classes, net2, device, program_name + "_1case", save_dir
+)
 
 # 終了時間を記録
 end_time = time.time()
 
 # 実行時間を計算して表示
 execution_time = end_time - start_time
-
 # ファイルを開く
 with open(f"{save_dir}/{program_name}_abst.txt", "a") as f:
     # ファイルに出力する
