@@ -166,22 +166,22 @@ def fit(
         item = np.array([epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc])
         history = np.vstack((history, item))
 
-        # モデルを保存
-        if epoch == num_epochs:
-            torch.save(
-                net,
-                os.path.join(
-                    os.path.expanduser("~"),
-                    "static",
-                    f"{which_data}",
-                    f"{program_name}",
-                    f"epoch{epoch}.pth",
-                ),
-            )
+        # # モデルを保存
+        # if epoch == num_epochs:
+        #     torch.save(
+        #         net,
+        #         os.path.join(
+        #             os.path.expanduser("~"),
+        #             "static",
+        #             f"{which_data}",
+        #             f"{program_name}",
+        #             f"epoch{epoch}.pth",
+        #         ),
+        #     )
 
-        if epoch % 25 == 0 or epoch == num_epochs:
-            make_cm(device, epoch, test_loader, save_dir, net)
-            make_ls(device, epoch, test_loader, save_dir, net)
+        # if epoch % 25 == 0 or epoch == num_epochs:
+        #     make_cm(device, epoch, test_loader, save_dir, net)
+        #     make_ls(device, epoch, test_loader, save_dir, net)
 
     return history
 
@@ -606,16 +606,17 @@ def fit_vec(
 
 
 # 学習ログ解析
-def evaluate_history(history, program_name, save_dir):
+def evaluate_history(history, save_dir, data_name=None):
     # 損失と精度の確認
     max_index = history[:, 8].argmax()
 
     result_f = open(
-        f"{save_dir}/{program_name}_abst.txt",
-        "w",
+        f"{save_dir}/abst.txt",
+        "a",
         newline="\n",
     )
     datalines = [
+        f"{data_name}\n",
         f"初期状態: 損失: {history[0,3]:.5f} 精度: {history[0,8]:.5f}\n",
         f"最終状態: 損失: {history[-1,3]:.5f} 精度: {history[-1,8]:.5f}\n",
         f"max: 損失: {history[max_index,3]:.5f} 精度: {history[max_index,8]:.5f}\n",
@@ -639,7 +640,7 @@ def evaluate_history(history, program_name, save_dir):
     plt.title("学習曲線(損失)")
     plt.legend()
     os.makedirs(save_dir, exist_ok=True)
-    plt.savefig(os.path.join(save_dir, f"{program_name}_loss.png"))
+    plt.savefig(os.path.join(save_dir, f"{data_name}_loss.png"))
     plt.show()
 
     # 学習曲線の表示 (精度)
@@ -655,7 +656,7 @@ def evaluate_history(history, program_name, save_dir):
     plt.ylabel("精度")
     plt.title("学習曲線(精度)")
     plt.legend()
-    plt.savefig(os.path.join(save_dir, f"{program_name}_acc.png"))
+    plt.savefig(os.path.join(save_dir, f"{data_name}_acc.png"))
     plt.show()
 
 

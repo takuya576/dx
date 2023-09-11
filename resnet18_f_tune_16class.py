@@ -29,7 +29,7 @@ device = torch.device(f"cuda:{int(args[2])}" if torch.cuda.is_available() else "
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 which_data = "data4_all_cases"
-data_dir = os.path.join("coins_data", which_data)
+data_dir = os.path.join("/home/sakamoto/dx/coins_data", which_data)
 
 train_dir = os.path.join(data_dir, "train")
 test_dir = os.path.join(data_dir, "val")
@@ -42,7 +42,9 @@ Time = now.strftime("%H-%M-%S")
 # Create the directory name
 when = f"{Date}_{Time}"
 
-save_dir = os.path.join("result", which_data, f"{when}_{program_name}")
+save_dir = os.path.join(
+    "/home/sakamoto/dx/result", which_data, f"{when}_{program_name}"
+)
 os.makedirs(save_dir, exist_ok=True)
 
 
