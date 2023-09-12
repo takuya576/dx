@@ -6,7 +6,7 @@
     "num_epochs": 20,
     "batch_size": 10,
     "nvidia": 1,
-    "num_val": 13,
+    "num_val": 11,
     "which_data": "data4",
     "train_data_1": "data4_all_cases",
     "train_data_2": "data4_1case",

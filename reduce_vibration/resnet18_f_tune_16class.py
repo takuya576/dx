@@ -53,6 +53,9 @@ when = f"{Date}_{Time}"
 save_dir = os.path.join("/home/sakamoto/dx/result", which_data, when)
 os.makedirs(save_dir, exist_ok=True)
 
+# 実行時jsonを保存する
+shutil.copy(src="/home/sakamoto/dx/config/config.json", dst=save_dir)
+
 
 test_transform = transforms.Compose(
     [
@@ -129,6 +132,7 @@ history2 = np.zeros((0, 9))
 num_data1 = count_JPG_files(train1_dir)
 num_data2 = count_JPG_files(train2_dir)
 
+
 # 学習データが少ない方はその分エポック数を増やす
 num_epochs1 = config.num_epochs
 num_epochs2 = int(config.num_epochs * (num_data1 / num_data2))
@@ -181,9 +185,6 @@ end_time = time.time()
 # 実行時間を計算して表示
 execution_time = end_time - start_time
 # ファイルを開く
-with open(f"{save_dir}/{program_name}_abst.txt", "a") as f:
+with open(f"{save_dir}/abst.txt", "a") as f:
     # ファイルに出力する
     print("実行時間:", execution_time, "秒", file=f)
-
-# 実行時jsonを保存する
-shutil.copy(src="/home/sakamoto/dx/config/config.json", dst=save_dir)
