@@ -22,8 +22,15 @@ from pythonlibs.my_torch_lib import (
 from utils.const import model_mapping
 from utils.count_files import count_JPG_files
 from utils.load_save import load_config
+from utils.make_dataset import make_dataset
 
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
+
+dataset_dir = "./coins_data/data4_all_cases"
+
+val_rate = config.num_val / 16
+
+make_dataset(dataset_dir, val_rate)
 
 # 開始時間を記録
 start_time = time.time()
