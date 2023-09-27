@@ -5,6 +5,7 @@ import sys
 import time
 from datetime import datetime
 
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
@@ -23,6 +24,9 @@ from utils.const import model_mapping
 from utils.count_files import count_JPG_files
 from utils.load_save import load_config
 from utils.make_dataset import make_dataset
+
+plt.rcParams["font.size"] = 18
+plt.tight_layout()
 
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
 
