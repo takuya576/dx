@@ -1,6 +1,7 @@
 *.out
 *.sif
-__pycache__data
+__pycache__
+data
 coins_data_sin
 .history/
 static/
