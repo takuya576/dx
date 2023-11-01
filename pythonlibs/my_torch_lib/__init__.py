@@ -1,6 +1,6 @@
 import os
 
-import japanize_matplotlib
+import japanize_matplotlib  # noqa
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -42,6 +42,8 @@ def fit(
     program_name,
     save_dir,
     which_data,
+    save_model=True,
+    save_cm_ls=True,
 ):
     base_epochs = len(history)
 
@@ -166,22 +168,24 @@ def fit(
         item = np.array([epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc])
         history = np.vstack((history, item))
 
-        # # モデルを保存
-        # if epoch == num_epochs:
-        #     torch.save(
-        #         net,
-        #         os.path.join(
-        #             os.path.expanduser("~"),
-        #             "static",
-        #             f"{which_data}",
-        #             f"{program_name}",
-        #             f"epoch{epoch}.pth",
-        #         ),
-        #     )
+        # モデルを保存
+        if epoch == num_epochs:
+            if save_model is True:
+                torch.save(
+                    net,
+                    os.path.join(
+                        os.path.expanduser("~"),
+                        "static",
+                        f"{which_data}",
+                        f"{program_name}",
+                        f"epoch{epoch}.pth",
+                    ),
+                )
 
-        # if epoch % 25 == 0 or epoch == num_epochs:
-        #     make_cm(device, epoch, test_loader, save_dir, net)
-        #     make_ls(device, epoch, test_loader, save_dir, net)
+        if epoch % 25 == 0 or epoch == num_epochs:
+            if save_cm_ls is True:
+                make_cm(device, epoch, test_loader, save_dir, net)
+                make_ls(device, epoch, test_loader, save_dir, net)
 
     return history
 
@@ -449,6 +453,8 @@ def fit_vec(
     program_name,
     save_dir,
     which_data,
+    save_model=True,
+    save_cm_ls=True,
 ):
     base_epochs = len(history)
 
@@ -587,20 +593,22 @@ def fit_vec(
 
         # モデルを保存
         if epoch == num_epochs:
-            torch.save(
-                net,
-                os.path.join(
-                    os.path.expanduser("~"),
-                    "static",
-                    f"{which_data}",
-                    f"{program_name}",
-                    f"epoch{epoch}.pth",
-                ),
-            )
+            if save_model is True:
+                torch.save(
+                    net,
+                    os.path.join(
+                        os.path.expanduser("~"),
+                        "static",
+                        f"{which_data}",
+                        f"{program_name}",
+                        f"epoch{epoch}.pth",
+                    ),
+                )
 
         if epoch % 25 == 0 or epoch == num_epochs:
-            make_cm(device, epoch, test_loader, save_dir, net)
-            make_ls(device, epoch, test_loader, save_dir, net)
+            if save_cm_ls is True:
+                make_cm(device, epoch, test_loader, save_dir, net)
+                make_ls(device, epoch, test_loader, save_dir, net)
 
     return history
 

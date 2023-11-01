@@ -13,8 +13,12 @@ from torch.utils.data import DataLoader
 from torchinfo import summary
 from torchvision import models
 
-from pythonlibs.my_torch_lib import (evaluate_history, fit, show_images_labels,
-                                     torch_seed)
+from pythonlibs.my_torch_lib import (
+    evaluate_history,
+    fit,
+    show_images_labels,
+    torch_seed,
+)
 
 warnings.simplefilter("ignore")
 plt.rcParams["axes.grid"] = True
@@ -42,7 +46,7 @@ test_transform = transforms.Compose(
 )
 
 which_data = "data1"
-data_dir = os.path.join("coins_data_sin", which_data)
+data_dir = os.path.join("data_sin", which_data)
 
 
 train_dir = os.path.join(data_dir, "train")

@@ -29,7 +29,7 @@ device = torch.device(f"cuda:{int(args[2])}" if torch.cuda.is_available() else "
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 which_data = "data4_all_cases"
-data_dir = os.path.join("coins_data", which_data)
+data_dir = os.path.join("data", which_data)
 
 train_dir = os.path.join(data_dir, "train")
 test_dir = os.path.join(data_dir, "val")

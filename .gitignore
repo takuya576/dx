@@ -1,9 +1,7 @@
 *.out
 *.sif
-__pycache__
-coins_data
+__pycache__data
 coins_data_sin
-coins_data_pre/
 .history/
 static/
 *.pth

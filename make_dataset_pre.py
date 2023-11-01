@@ -7,8 +7,8 @@ from utils.load_save import load_config
 
 random.seed(123)
 
-# os.makedirs("./coins_data", exist_ok=True)
-dataset_dir = "./coins_data/data4_all_cases"
+# os.makedirs("./data", exist_ok=True)
+dataset_dir = "./data/data4_all_cases"
 
 class_list = [
     str(i1) + str(i2) + str(i3) + str(i4)

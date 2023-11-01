@@ -30,7 +30,7 @@ plt.tight_layout()
 
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
 
-dataset_dir = "./coins_data/data4_all_cases"
+dataset_dir = "./data/data4_all_cases"
 
 val_rate = config.num_val / 16
 
@@ -49,9 +49,9 @@ device = torch.device(
 
 which_data = config.which_data
 
-train1_dir = os.path.join("/home/sakamoto/dx/coins_data", config.train_data_1, "train")
-train2_dir = os.path.join("/home/sakamoto/dx/coins_data", config.train_data_2, "train")
-test_dir = os.path.join("/home/sakamoto/dx/coins_data", config.test_data, "val")
+train1_dir = os.path.join("/home/sakamoto/dx/data", config.train_data_1, "train")
+train2_dir = os.path.join("/home/sakamoto/dx/data", config.train_data_2, "train")
+test_dir = os.path.join("/home/sakamoto/dx/data", config.test_data, "val")
 
 # Get the current date and time
 now = datetime.now()
