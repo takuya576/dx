@@ -31,11 +31,11 @@ plt.tight_layout()
 # configでCNN、ハイパーパラメータや使用するデータを指定
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
 
-dataset_dir = os.path.join("./data/", config.which_data)
+# dataset_dir = os.path.join("./data/", config.which_data)
 
-val_rate = config.num_val / 16
+# val_rate = config.num_val / 16
 
-make_dataset(dataset_dir, val_rate)
+# make_dataset(dataset_dir, val_rate)
 
 # 開始時間を記録
 start_time = time.time()
@@ -152,7 +152,12 @@ history = fit(
 evaluate_history(history, save_dir, config.train_data_1)
 
 show_images_labels(
-    test_loader, classes, net, device, program_name + config.train_data_1, save_dir
+    test_loader_for_check,
+    classes,
+    net,
+    device,
+    program_name + config.train_data_1,
+    save_dir,
 )
 
 # 終了時間を記録

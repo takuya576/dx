@@ -1,6 +1,9 @@
 import os
+import pathlib
 import random
 import shutil
+
+from utils.load_save import load_config
 
 
 def make_dataset(dataset_dir, val_rate):
@@ -49,3 +52,13 @@ def make_dataset(dataset_dir, val_rate):
             src = os.path.join(image_dir, file)
             dst = os.path.join(dataset_dir, "train", class_name)
             shutil.copy(src, dst)
+
+
+# configでCNN、ハイパーパラメータや使用するデータを指定
+config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
+
+dataset_dir = os.path.join("./data/", config.which_data)
+
+val_rate = config.num_val / 16
+
+make_dataset(dataset_dir, val_rate)
