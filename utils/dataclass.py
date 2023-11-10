@@ -12,6 +12,10 @@ class Config:
     nvidia: int
     num_val: int
     which_data: str
-    train_data_1: str
-    train_data_2: str
+    train_data: str
     test_data: str
+    generated: bool
+    alpha: float
+    beta: float
+    a: float
+    axis: float

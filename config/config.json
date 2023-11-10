@@ -1,5 +1,5 @@
 {
-    "net": "resnet18",
+    "net": "vit_b_16",
     "pretrained": true,
     "lr": 0.001,
     "momentum": 0.9,
@@ -7,8 +7,12 @@
     "batch_size": 10,
     "nvidia": 0,
     "num_val": 8,
-    "which_data": "data5",
-    "train_data_1": "data5",
-    "train_data_2": "data5",
-    "test_data": "data5"
+    "which_data": "data4",
+    "train_data": "data4",
+    "test_data": "data4_all_cases",
+    "generated": true,
+    "alpha": 0.5,
+    "beta": 10,
+    "a": 20,
+    "axis": 0.5
 }
