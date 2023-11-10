@@ -39,7 +39,6 @@ def fit(
     test_loader,
     device,
     history,
-    program_name,
     save_dir,
     which_data,
     save_model=True,
@@ -726,7 +725,7 @@ def evaluate_vib_history(history, program_name, save_dir):
 
 
 # イメージとラベル表示
-def show_images_labels(loader, classes, net, device, program_name, save_dir):
+def show_images_labels(loader, classes, net, device, save_dir, data_name):
     # DataLoaderから最初の1セットを取得する
     for images, labels in loader:
         break
@@ -770,7 +769,7 @@ def show_images_labels(loader, classes, net, device, program_name, save_dir):
         plt.imshow(img)
         ax.set_axis_off()
     os.makedirs(save_dir, exist_ok=True)
-    plt.savefig(os.path.join(save_dir, f"{program_name}_images.png"))
+    plt.savefig(os.path.join(save_dir, f"{data_name}_images.png"))
     # plt.savefig("/mnt/image_labels.png")
     plt.show()
 

@@ -6,5 +6,6 @@ model_mapping = {
     "resnet50": models.resnet50,
     "densenet121": models.densenet121,
     "vgg19_bn": models.vgg19_bn,
+    "vit_b_16": models.vit_b_16,
     # 他のモデルを追加することもできます
 }

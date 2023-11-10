@@ -30,11 +30,11 @@ plt.tight_layout()
 
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
 
-dataset_dir = "./data/data4_all_cases"
+# dataset_dir = "./data/data4_all_cases"
 
-val_rate = config.num_val / 16
+# val_rate = config.num_val / 16
 
-make_dataset(dataset_dir, val_rate)
+# make_dataset(dataset_dir, val_rate)
 
 # 開始時間を記録
 start_time = time.time()
@@ -49,9 +49,9 @@ device = torch.device(
 
 which_data = config.which_data
 
-train1_dir = os.path.join("/home/sakamoto/dx/data", config.train_data_1, "train")
-train2_dir = os.path.join("/home/sakamoto/dx/data", config.train_data_2, "train")
-test_dir = os.path.join("/home/sakamoto/dx/data", config.test_data, "val")
+train1_dir = os.path.join("/home/sakamoto/dx/data", config.train_data_1)
+train2_dir = os.path.join("/home/sakamoto/dx/data", config.train_data_2)
+test_dir = os.path.join("/home/sakamoto/dx/data", config.test_data)
 
 # Get the current date and time
 now = datetime.now()
@@ -157,7 +157,6 @@ history1 = fit(
     test_loader1,
     device,
     history1,
-    program_name,
     save_dir,
     which_data,
     False,
@@ -173,7 +172,6 @@ history2 = fit(
     test_loader1,
     device,
     history2,
-    program_name,
     save_dir,
     which_data,
     False,
@@ -183,12 +181,8 @@ history2 = fit(
 evaluate_history(history1, save_dir, config.train_data_1)
 evaluate_history(history2, save_dir, config.train_data_2)
 
-show_images_labels(
-    test_loader, classes, net1, device, program_name + config.train_data_1, save_dir
-)
-show_images_labels(
-    test_loader, classes, net2, device, program_name + config.train_data_2, save_dir
-)
+show_images_labels(test_loader, classes, net1, device, config.train_data_1, save_dir)
+show_images_labels(test_loader, classes, net2, device, config.train_data_2, save_dir)
 
 # 終了時間を記録
 end_time = time.time()

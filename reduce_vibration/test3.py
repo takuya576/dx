@@ -4,7 +4,7 @@ import numpy as np
 # 画像を読み込む
 image = cv2.imread("/home/sakamoto/dx/data/data4_1case/0010/IMG_0310.JPG")
 # コントラストと明るさの変更
-alpha = 0.4  # コントラストの倍率（1より大きい値でコントラストが上がる）
+alpha = 0.6  # コントラストの倍率（1より大きい値でコントラストが上がる）
 beta = 0  # 明るさの調整値（正の値で明るくなる）
 darkened_image = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
 cv2.imwrite("darkened_image.jpg", darkened_image)
@@ -17,7 +17,7 @@ height = image.shape[0]
 result = np.zeros_like(image)
 
 # シグモイド関数のパラメータを設定
-a = 10  # シグモイド関数の傾斜を調整するパラメータ
+a = 20  # シグモイド関数の傾斜を調整するパラメータ
 
 # 水平方向にシグモイド関数を使用して合成
 for x in range(width):
