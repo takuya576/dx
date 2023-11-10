@@ -52,11 +52,13 @@ gen_params = (
 )
 
 if config.generated:
+    train_data_name = gen_params
     train_dir = os.path.join(
-        "/home/sakamoto/dx/generated_data/", which_data, gen_params
+        "/home/sakamoto/dx/generated_data/", which_data, train_data_name
     )
 else:
-    train_dir = os.path.join("/home/sakamoto/dx/data/", which_data, config.train_data)
+    train_data_name = config.train_data
+    train_dir = os.path.join("/home/sakamoto/dx/data/", which_data, train_data_name)
 
 test_dir = os.path.join("/home/sakamoto/dx/data", which_data, config.test_data)
 
@@ -123,8 +125,8 @@ net = model_mapping[config.net](pretrained=config.pretrained)
 
 torch_seed()
 
-fc_in_features = net.fc.in_features
-net.fc = nn.Linear(fc_in_features, 16)
+fc_in_features = net.heads.head.in_features
+net.heads.head = nn.Linear(fc_in_features, 16)
 
 
 net = net.to(device)
@@ -147,22 +149,17 @@ history = fit(
     test_loader,
     device,
     history,
-    program_name,
     save_dir,
     which_data,
+    train_data_name,
     True,
     True,
 )
 
-evaluate_history(history, save_dir, config.train_data_1)
+evaluate_history(history, save_dir, train_data_name)
 
 show_images_labels(
-    test_loader_for_check,
-    classes,
-    net,
-    device,
-    program_name + config.train_data_1,
-    save_dir,
+    test_loader_for_check, classes, net, device, save_dir, train_data_name
 )
 
 # 終了時間を記録

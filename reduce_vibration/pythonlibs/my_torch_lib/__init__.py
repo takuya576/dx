@@ -41,6 +41,7 @@ def fit(
     history,
     save_dir,
     which_data,
+    data_name,
     save_model=True,
     save_cm_ls=True,
 ):
@@ -176,7 +177,7 @@ def fit(
                         os.path.expanduser("~"),
                         "static",
                         f"{which_data}",
-                        f"{program_name}",
+                        f"{data_name}",
                         f"epoch{epoch}.pth",
                     ),
                 )
