@@ -114,7 +114,7 @@ def make_cm(device, epoch, test_loader, save_dir, net):
         save_path=os.path.join(
             f"{save_dir}",
             "confusion_matrix",
-            f"cm_count_{epoch}.png",
+            f"cm_count_{epoch}_norm.png",
         ),
     )
 

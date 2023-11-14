@@ -76,8 +76,8 @@ os.makedirs(save_dir, exist_ok=True)
 # 実行時jsonを保存する
 shutil.copy(src="/home/sakamoto/dx/config/config.json", dst=save_dir)
 
-
-test_transform = transforms.Compose(
+# remove augumentation in train
+train_transform = transforms.Compose(
     [
         transforms.Resize((224, 224)),
         transforms.CenterCrop(224),
@@ -86,8 +86,8 @@ test_transform = transforms.Compose(
     ]
 )
 
-# remove augumentation in train
-train_transform = transforms.Compose(
+
+test_transform = transforms.Compose(
     [
         transforms.Resize((224, 224)),
         transforms.CenterCrop(224),
@@ -105,20 +105,20 @@ classes = [
     for i4 in range(0, 2)
 ]
 
-train_data = datasets.ImageFolder(train_dir, transform=test_transform)
+train_data = datasets.ImageFolder(train_dir, transform=train_transform)
 
 test_data = datasets.ImageFolder(test_dir, transform=test_transform)
 
 train_loader = DataLoader(
-    train_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=True
+    train_data, batch_size=batch_size, num_workers=4, pin_memory=True, shuffle=True
 )
 
 test_loader = DataLoader(
-    test_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=False
+    test_data, batch_size=batch_size, num_workers=4, pin_memory=True, shuffle=False
 )
 
 test_loader_for_check = DataLoader(
-    test_data, batch_size=50, num_workers=2, pin_memory=True, shuffle=True
+    test_data, batch_size=50, num_workers=4, pin_memory=True, shuffle=True
 )
 
 net = model_mapping[config.net](pretrained=config.pretrained)
@@ -127,6 +127,9 @@ torch_seed()
 
 fc_in_features = net.heads.head.in_features
 net.heads.head = nn.Linear(fc_in_features, 16)
+
+# fc_in_features = net.fc.in_features
+# net.fc = nn.Linear(fc_in_features, 16)
 
 
 net = net.to(device)

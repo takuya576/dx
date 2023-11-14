@@ -3,16 +3,16 @@
     "pretrained": true,
     "lr": 0.001,
     "momentum": 0.9,
-    "num_epochs": 10,
+    "num_epochs": 100,
     "batch_size": 10,
     "nvidia": 0,
     "num_val": 8,
     "which_data": "data4",
-    "train_data": "data4_1case",
+    "train_data": "data4_1case_2",
     "test_data": "data4_all_cases",
     "generated": false,
     "alpha": 0.5,
     "beta": 10,
     "a": 20,
-    "axis": 0.6
+    "axis": 0.5
 }

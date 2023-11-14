@@ -169,8 +169,17 @@ def fit(
         history = np.vstack((history, item))
 
         # モデルを保存
-        if epoch == num_epochs:
+        if epoch == num_epochs - 1:
             if save_model is True:
+                os.makedirs(
+                    os.path.join(
+                        os.path.expanduser("~"),
+                        "static",
+                        f"{which_data}",
+                        f"{data_name}",
+                    ),
+                    exist_ok=True,
+                )
                 torch.save(
                     net,
                     os.path.join(
@@ -181,8 +190,9 @@ def fit(
                         f"epoch{epoch}.pth",
                     ),
                 )
+                print("model is saved")
 
-        if epoch % 25 == 0 or epoch == num_epochs:
+        if epoch % 10 == 0 or epoch == num_epochs - 1:
             if save_cm_ls is True:
                 make_cm(device, epoch, test_loader, save_dir, net)
                 make_ls(device, epoch, test_loader, save_dir, net)
@@ -639,9 +649,9 @@ def evaluate_history(history, save_dir, data_name=None):
     plt.plot(history[:, 0], history[:, 1], "b", label="訓練")
     plt.plot(history[:, 0], history[:, 3], "k", label="検証")
     plt.xticks(np.arange(0, num_epochs + 1, unit))
-    plt.xlabel("繰り返し回数")
-    plt.ylabel("損失")
-    plt.title("学習曲線(損失)")
+    plt.xlabel("Number of repetitions")
+    plt.ylabel("Loss")
+    plt.title("Learning Curve(Loss)")
     plt.legend()
     os.makedirs(save_dir, exist_ok=True)
     plt.savefig(os.path.join(save_dir, f"{data_name}_loss.png"))
@@ -656,9 +666,9 @@ def evaluate_history(history, save_dir, data_name=None):
     plt.plot(history[:, 0], history[:, 5], "y", label="3miss")
     plt.plot(history[:, 0], history[:, 4], "m", label="4miss")
     plt.xticks(np.arange(0, num_epochs + 1, unit))
-    plt.xlabel("繰り返し回数")
-    plt.ylabel("精度")
-    plt.title("学習曲線(精度)")
+    plt.xlabel("Number of repetitions")
+    plt.ylabel("Accuracy")
+    plt.title("Learning Curve(Accuracy)")
     plt.legend()
     plt.savefig(os.path.join(save_dir, f"{data_name}_acc.png"))
     plt.show()

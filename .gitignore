@@ -4,5 +4,6 @@ __pycache__
 data
 coins_data_sin
 .history/
+generated_data
 static/
 *.pth

@@ -12,7 +12,7 @@ from utils.load_save import load_config
 # configでCNN、ハイパーパラメータや使用するデータを指定
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
 
-input_dir = "/home/sakamoto/dx/data/data4/data4_1case_2"  # 画像ファイルがあるディレクトリのパス
+input_dir = "/home/sakamoto/dx/data/data4/data4_1case"  # 画像ファイルがあるディレクトリのパス
 output_dir = os.path.join(
     "/home/sakamoto/dx/generated_data/data4",
     str(config.alpha)

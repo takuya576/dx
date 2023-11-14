@@ -10,7 +10,7 @@
     "which_data": "data4",
     "train_data": "data4_1case",
     "test_data": "data4_all_cases",
-    "generated": false,
+    "generated": true,
     "alpha": 0.5,
     "beta": 10,
     "a": 20,

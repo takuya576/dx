@@ -10,3 +10,7 @@ def count_JPG_files(directory):
                 jpg_count += 1
 
     return jpg_count
+
+
+jpg_count = count_JPG_files("/home/sakamoto/dx/data/data2/0010")
+print(jpg_count)
