@@ -646,8 +646,8 @@ def evaluate_history(history, save_dir, data_name=None):
 
     # 学習曲線の表示 (損失)
     plt.figure(figsize=(9, 8))
-    plt.plot(history[:, 0], history[:, 1], "b", label="訓練")
-    plt.plot(history[:, 0], history[:, 3], "k", label="検証")
+    plt.plot(history[:, 0], history[:, 1], "b", label="train")
+    plt.plot(history[:, 0], history[:, 3], "k", label="test")
     plt.xticks(np.arange(0, num_epochs + 1, unit))
     plt.xlabel("Number of repetitions")
     plt.ylabel("Loss")
@@ -659,8 +659,8 @@ def evaluate_history(history, save_dir, data_name=None):
 
     # 学習曲線の表示 (精度)
     plt.figure(figsize=(9, 8))
-    plt.plot(history[:, 0], history[:, 2], "b", label="訓練")
-    plt.plot(history[:, 0], history[:, 8], "k", label="検証")
+    plt.plot(history[:, 0], history[:, 2], "b", label="train")
+    plt.plot(history[:, 0], history[:, 8], "k", label="test")
     plt.plot(history[:, 0], history[:, 7], "g", label="1miss")
     plt.plot(history[:, 0], history[:, 6], "c", label="2miss")
     plt.plot(history[:, 0], history[:, 5], "y", label="3miss")

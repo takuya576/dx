@@ -1,9 +1,9 @@
 *.out
 *.sif
 __pycache__
-data
+data/
 coins_data_sin
 .history/
-generated_data
+generated_data/
 static/
 *.pth
