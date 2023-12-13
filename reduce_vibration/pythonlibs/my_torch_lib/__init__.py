@@ -1,3 +1,4 @@
+import csv
 import os
 
 import japanize_matplotlib
@@ -617,6 +618,20 @@ def fit_vec(
             make_ls(device, epoch, test_loader, save_dir, net)
 
     return history
+
+
+def save_history_to_csv(history, save_dir):
+    # 配列をCSVに保存する関数
+    filename = os.path.join(save_dir, "history.csv")
+
+    with open(filename, "w", newline="") as csvfile:
+        csvwriter = csv.writer(csvfile)
+
+        # 配列をCSVファイルに書き込む
+        for row in history:
+            csvwriter.writerow(row)
+
+    print(f"配列が {filename} に保存されました。")
 
 
 # 学習ログ解析

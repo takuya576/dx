@@ -17,6 +17,7 @@ from torch.utils.data import DataLoader
 from pythonlibs.my_torch_lib import (
     evaluate_history,
     fit,
+    save_history_to_csv,
     show_images_labels,
     torch_seed,
 )
@@ -163,6 +164,8 @@ history = fit(
     True,
     True,
 )
+
+save_history_to_csv(history, save_dir)
 
 evaluate_history(history, save_dir, train_data_name)
 
