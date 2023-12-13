@@ -50,7 +50,7 @@ device = torch.device(
 
 which_data = config.which_data
 
-train_dir = os.path.join("/home/sakamoto/dx/data", config.train_data_1, "train")
+train_dir = os.path.join("/home/sakamoto/dx/data", config.train_data, "train")
 test_dir = os.path.join("/home/sakamoto/dx/data", config.test_data, "val")
 
 # Get the current date and time
@@ -149,14 +149,14 @@ history = fit(
     True,
 )
 
-evaluate_history(history, save_dir, config.train_data_1)
+evaluate_history(history, save_dir, config.train_data)
 
 show_images_labels(
     test_loader_for_check,
     classes,
     net,
     device,
-    program_name + config.train_data_1,
+    program_name + config.train_data,
     save_dir,
 )
 

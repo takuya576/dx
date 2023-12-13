@@ -82,7 +82,7 @@ def fit(
 
         # train_progress_bar = tqdm(total=len(train_loader), leave=False)
         # for inputs, labels in train_loader:
-        for inputs, labels in tqdm(train_loader, leave=False, disable=False):
+        for inputs, labels in tqdm(train_loader, leave=False, disable=True):
             # 1バッチあたりのデータ件数
             train_batch_size = len(labels)
             # 1エポックあたりのデータ累積件数
@@ -650,7 +650,7 @@ def evaluate_history(history, save_dir, data_name=None):
     plt.plot(history[:, 0], history[:, 3], "k", label="test")
     plt.xticks(np.arange(0, num_epochs + 1, unit), fontsize=12)
     plt.yticks(fontsize=12)
-    plt.xlabel("Number of repetitions", fontsize=18)
+    plt.xlabel("Epoch", fontsize=18)
     plt.ylabel("Loss", fontsize=18)
     plt.title("Learning Curve(Loss)", fontsize=24)
     plt.legend(fontsize=18)
@@ -670,9 +670,9 @@ def evaluate_history(history, save_dir, data_name=None):
     plt.xticks(np.arange(0, num_epochs + 1, unit), fontsize=12)
     plt.yticks(fontsize=12)
     plt.ylim(-0.04, 1.04)
-    plt.xlabel("Number of repetitions", fontsize=18)
+    plt.xlabel("Epoch", fontsize=18)
     plt.ylabel("Accuracy", fontsize=18)
-    plt.title("Learning Curve(Accuracy)", fontsize=24)
+    # plt.title("Learning Curve(Accuracy)", fontsize=24)
     plt.legend(fontsize=18)
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, f"{data_name}_acc.png"))

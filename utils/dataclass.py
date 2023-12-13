@@ -18,4 +18,4 @@ class Config:
     alpha: float
     beta: float
     a: float
-    axis: float
+    sigmoid: bool

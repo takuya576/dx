@@ -5,6 +5,7 @@ from dataclasses import dataclass
 class Config:
     net: str
     pretrained: bool
+    transfer: bool
     lr: float
     momentum: float
     num_epochs: int
@@ -18,4 +19,4 @@ class Config:
     alpha: float
     beta: float
     a: float
-    axis: float
+    sigmoid: bool

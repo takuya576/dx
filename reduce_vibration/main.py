@@ -23,6 +23,8 @@ from pythonlibs.my_torch_lib import (
 from utils.const import model_mapping
 from utils.load_save import load_config
 
+torch_seed()
+
 plt.rcParams["font.size"] = 18
 plt.tight_layout()
 
@@ -48,7 +50,7 @@ gen_params = (
     + "_"
     + str(config.a)
     + "_"
-    + str(config.axis)
+    + str(config.sigmoid)
 )
 
 if config.generated:
@@ -123,7 +125,10 @@ test_loader_for_check = DataLoader(
 
 net = model_mapping[config.net](pretrained=config.pretrained)
 
-torch_seed()
+if config.transfer:
+    for param in net.parameters():
+        param.requires_grad = False
+
 
 fc_in_features = net.heads.head.in_features
 net.heads.head = nn.Linear(fc_in_features, 16)

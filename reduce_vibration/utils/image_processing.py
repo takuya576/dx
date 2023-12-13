@@ -3,11 +3,12 @@ import numpy as np
 
 
 class ImageProcessing:
-    def __init__(self, image_path, alpha, beta, a) -> None:
+    def __init__(self, image_path, alpha, beta, a, sigmoid) -> None:
         self.image = cv2.imread(image_path)
         self.alpha = alpha  # コントラストの倍率（1より大きい値でコントラストが上がる）
         self.beta = beta  # 明るさの調整値（正の値で明るくなる）
         self.a = a  # シグモイド関数の傾斜を調整するパラメータ
+        self.sigmoid = sigmoid
 
     # ３区画明るくする
     # 右下以外
@@ -138,8 +139,8 @@ class ImageProcessing:
         # cv2.imwrite("darkened_image.jpg", darkened_image)
         return darkened_image
 
-    def synthesize(self, image1, image2, horizontal=True, sigmoid=True) -> np.ndarray:
-        if sigmoid:
+    def synthesize(self, image1, image2, horizontal=True) -> np.ndarray:
+        if self.sigmoid:
             result = self.sigmoid_synth(image1, image2, horizontal)
         else:
             result = self.linear_synth(image1, image2, horizontal)

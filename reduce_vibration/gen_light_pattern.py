@@ -12,7 +12,7 @@ from utils.load_save import load_config
 # configでCNN、ハイパーパラメータや使用するデータを指定
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
 
-input_dir = "/home/sakamoto/dx/data/data4/data4_1case_4"  # 画像ファイルがあるディレクトリのパス
+input_dir = "/home/sakamoto/dx/data/data4/data4_1case_merged"  # 画像ファイルがあるディレクトリのパス
 output_dir = os.path.join(
     "/home/sakamoto/dx/generated_data/data4",
     str(config.alpha)
@@ -21,7 +21,7 @@ output_dir = os.path.join(
     + "_"
     + str(config.a)
     + "_"
-    + str(config.axis),
+    + str(config.sigmoid),
 )  # 処理後の画像を保存するディレクトリのパス
 
 if os.path.isdir(output_dir) is True:
@@ -54,7 +54,7 @@ for class_name in tqdm(class_list):
 
             # 画像処理のためのオブジェクトを作成
             image_processing = ImageProcessing(
-                image_path, config.alpha, config.beta, config.a
+                image_path, config.alpha, config.beta, config.a, config.sigmoid
             )
 
             # 元画像も含めて保存

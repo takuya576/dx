@@ -15,7 +15,7 @@ def count_JPG_files(directory):
 
 
 file_count, jpg_count = count_JPG_files(
-    "/home/sakamoto/dx/data/data4/data4_all_cases_3"
+    "/home/sakamoto/dx/data/data4/data4_1case_merged"
 )
 print("all files: ", file_count)
 print("jpg files: ", jpg_count)
