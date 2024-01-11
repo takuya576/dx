@@ -6,7 +6,7 @@
     "momentum": 0.9,
     "num_epochs": 20,
     "batch_size": 10,
-    "nvidia": 0,
+    "nvidia": 1,
     "num_val": 8,
     "which_data": "data6",
     "train_data": "data6_1case",
@@ -15,5 +15,5 @@
     "alpha": 0.1,
     "beta": 0,
     "a": 10,
-    "sigmoid": false
+    "sigmoid": true
 }

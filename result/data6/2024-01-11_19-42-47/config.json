@@ -12,8 +12,8 @@
     "train_data": "data6_1case",
     "test_data": "data6_all_cases",
     "generated": true,
-    "alpha": 0.1,
-    "beta": 0,
+    "alpha": 0.5,
+    "beta": 10,
     "a": 10,
-    "sigmoid": false
+    "sigmoid": true
 }
