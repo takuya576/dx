@@ -1,0 +1,19 @@
+{
+    "net": "vit_b_16",
+    "pretrained": true,
+    "transfer": false,
+    "lr": 0.001,
+    "momentum": 0.9,
+    "num_epochs": 20,
+    "batch_size": 10,
+    "nvidia": 0,
+    "num_val": 8,
+    "which_data": "data6",
+    "train_data": "data6_1case2",
+    "test_data": "data6_all_cases2",
+    "generated": true,
+    "alpha": 0.1,
+    "beta": 0,
+    "a": 20,
+    "sigmoid": true
+}

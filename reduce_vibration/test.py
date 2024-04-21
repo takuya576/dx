@@ -5,7 +5,7 @@ import numpy as np
 image = cv2.imread("/home/sakamoto/dx/data/data6/data6_1case/1010/0111-130259-3.jpg")
 # コントラストと明るさの変更
 alpha = 0.1  # コントラストの倍率（1より大きい値でコントラストが上がる）
-beta = 0  # 明るさの調整値（正の値で明るくなる）
+beta = 20  # 明るさの調整値（正の値で明るくなる）
 darkened_image = cv2.convertScaleAbs(image, alpha=alpha, beta=beta)
 cv2.imwrite("darkened_image.jpg", darkened_image)
 

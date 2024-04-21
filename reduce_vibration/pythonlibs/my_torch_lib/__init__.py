@@ -170,33 +170,30 @@ def fit(
         history = np.vstack((history, item))
 
         # モデルを保存
-        if epoch == num_epochs - 1:
+        if (epoch + 1) == num_epochs:
             if save_model is True:
+                model_save_dir = os.path.join(
+                    "/home/sakamoto/dx/static",
+                    f"{which_data}",
+                    f"{data_name}",
+                )
                 os.makedirs(
-                    os.path.join(
-                        os.path.expanduser("~"),
-                        "static",
-                        f"{which_data}",
-                        f"{data_name}",
-                    ),
+                    model_save_dir,
                     exist_ok=True,
                 )
                 torch.save(
                     net,
                     os.path.join(
-                        os.path.expanduser("~"),
-                        "static",
-                        f"{which_data}",
-                        f"{data_name}",
-                        f"epoch{epoch}.pth",
+                        model_save_dir,
+                        f"epoch{epoch+1}.pth",
                     ),
                 )
-                print("model is saved")
+                print(f"model is saved at {model_save_dir}")
 
-        if epoch % 10 == 0 or epoch == num_epochs - 1:
+        if epoch % 10 == 0 or (epoch + 1) == num_epochs:
             if save_cm_ls is True:
-                make_cm(device, epoch, test_loader, save_dir, net)
-                make_ls(device, epoch, test_loader, save_dir, net)
+                make_cm(device, epoch + 1, test_loader, save_dir, net)
+                make_ls(device, epoch + 1, test_loader, save_dir, net)
 
     return history
 
@@ -667,7 +664,7 @@ def evaluate_history(history, save_dir, data_name=None):
     plt.yticks(fontsize=12)
     plt.xlabel("Epoch", fontsize=18)
     plt.ylabel("Loss", fontsize=18)
-    plt.title("Learning Curve(Loss)", fontsize=24)
+    # plt.title("Learning Curve(Loss)", fontsize=24)
     plt.legend(fontsize=18)
     plt.tight_layout()
     os.makedirs(save_dir, exist_ok=True)
@@ -801,6 +798,51 @@ def show_images_labels(loader, classes, net, device, save_dir, data_name):
         ax.set_axis_off()
     os.makedirs(save_dir, exist_ok=True)
     plt.savefig(os.path.join(save_dir, f"{data_name}_images.png"))
+    # plt.savefig("/mnt/image_labels.png")
+    plt.show()
+
+
+# 間違えた画像を表示
+def show_incorrect_images_labels(loader, classes, net, device, save_dir, data_name):
+    # DataLoaderから最初の1セットを取得する
+    for images, labels in loader:
+        # 表示数は50個とバッチサイズのうち小さい方
+        n_size = min(len(images), 25)
+
+        if net is not None:
+            # デバイスの割り当て
+            inputs = images.to(device)
+            labels = labels.to(device)
+
+            # 予測計算
+            outputs = net(inputs)
+            predicted = torch.max(outputs, 1)[1]
+            # images = images.to('cpu')
+
+        incorrect_i = 0
+        plt.figure(figsize=(20, 15))
+        for i in range(n_size):
+            label_name = classes[labels[i]]
+            # netがNoneでない場合は、予測結果もタイトルに表示する
+            predicted_name = classes[predicted[i]]
+            # 正解かどうかで色分けをする
+            if label_name != predicted_name:
+                ax = plt.subplot(5, 10, i + 1)
+                incorrect_i += 1
+                c = "b"
+                ax.set_title(label_name + ":" + predicted_name, c=c, fontsize=20)
+
+                # TensorをNumPyに変換
+                image_np = images[i].numpy().copy()
+                # 軸の順番変更 (channel, row, column) -> (row, column, channel)
+                img = np.transpose(image_np, (1, 2, 0))
+                # 値の範囲を[-1, 1] -> [0, 1]に戻す
+                img = (img + 1) / 2
+                # 結果表示
+                plt.imshow(img)
+                ax.set_axis_off()
+    os.makedirs(save_dir, exist_ok=True)
+    plt.savefig(os.path.join(save_dir, f"{data_name}_incorrect_images.png"))
     # plt.savefig("/mnt/image_labels.png")
     plt.show()
 

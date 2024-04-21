@@ -44,15 +44,18 @@ device = torch.device(
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 which_data = config.which_data
-gen_params = (
-    str(config.alpha)
-    + "_"
-    + str(config.beta)
-    + "_"
-    + str(config.a)
-    + "_"
-    + str(config.sigmoid)
-)
+if config.sigmoid is True:
+    gen_params = (
+        str(config.alpha)
+        + "_"
+        + str(config.beta)
+        + "_"
+        + str(config.a)
+        + "_"
+        + str(config.sigmoid)
+    )
+else:
+    gen_params = str(config.alpha) + "_" + str(config.beta) + "_" + str(config.sigmoid)
 
 if config.generated:
     train_data_name = gen_params
@@ -64,6 +67,7 @@ else:
     train_dir = os.path.join("/home/sakamoto/dx/data/", which_data, train_data_name)
 
 test_dir = os.path.join("/home/sakamoto/dx/data", which_data, config.test_data)
+print(train_dir)
 
 # Get the current date and time
 now = datetime.now()

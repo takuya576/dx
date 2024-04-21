@@ -21,7 +21,7 @@ def save_confusion_matrix(
 
     plt.clf()
     plt.imshow(cm, interpolation="nearest", cmap=cmap)
-    plt.title(title, fontsize=24)
+    # plt.title(title, fontsize=24)
     # メモリの文字サイズを調整
     cbar = plt.colorbar()
     cbar.ax.tick_params(labelsize=12)
