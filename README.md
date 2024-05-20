@@ -79,7 +79,7 @@ data2のように、画像のラベルごとに0000~1111のディレクトリに
 python utils/make_dataset.py
 ```
 
-`~/dx/data/{config.which_data}`内に`train`(訓練データ), `val`(検証データ)ディレクトリ作成
+`~/dx/data/{config.which_data}`内に`train`(訓練データ), `val`(検証データ)ディレクトリ作成されます。
 
 ## プログラム実行方法
 
