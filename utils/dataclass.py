@@ -5,6 +5,7 @@ from dataclasses import dataclass
 class Config:
     net: str
     pretrained: bool
+    transfer: bool
     lr: float
     momentum: float
     num_epochs: int

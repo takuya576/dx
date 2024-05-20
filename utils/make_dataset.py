@@ -3,7 +3,7 @@ import pathlib
 import random
 import shutil
 
-from utils.load_save import load_config
+from load_save import load_config
 
 
 def make_dataset(dataset_dir, val_rate):

@@ -21,21 +21,13 @@ from pythonlibs.my_torch_lib import (
     torch_seed,
 )
 from utils.const import model_mapping
-from utils.count_files import count_JPG_files
 from utils.load_save import load_config
-from utils.make_dataset import make_dataset
 
 plt.rcParams["font.size"] = 18
 plt.tight_layout()
 
 # configでCNN、ハイパーパラメータや使用するデータを指定
 config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
-
-# dataset_dir = os.path.join("./data/", config.which_data)
-
-# val_rate = config.num_val / 16
-
-# make_dataset(dataset_dir, val_rate)
 
 # 開始時間を記録
 start_time = time.time()
@@ -50,8 +42,10 @@ device = torch.device(
 
 which_data = config.which_data
 
-train_dir = os.path.join("/home/sakamoto/dx/data", config.train_data, "train")
-test_dir = os.path.join("/home/sakamoto/dx/data", config.test_data, "val")
+root_dir = os.getcwd()
+
+train_dir = os.path.join(root_dir, "data", config.which_data, config.train_data)
+test_dir = os.path.join(root_dir, "data", config.which_data, config.test_data)
 
 # Get the current date and time
 now = datetime.now()
@@ -116,8 +110,13 @@ net = model_mapping[config.net](pretrained=config.pretrained)
 
 torch_seed()
 
-fc_in_features = net.fc.in_features
-net.fc = nn.Linear(fc_in_features, 16)
+# vitを使うときはこれ
+fc_in_features = net.heads.head.in_features
+net.heads.head = nn.Linear(fc_in_features, 16)
+
+# vggなどを使うときはこっち
+# fc_in_features = net.fc.in_features
+# net.fc = nn.Linear(fc_in_features, 16)
 
 
 net = net.to(device)
@@ -127,8 +126,6 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=config.lr, momentum=config.momentum)
 
 history = np.zeros((0, 9))
-
-num_data = count_JPG_files(train_dir)
 
 
 num_epochs = config.num_epochs
