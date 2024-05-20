@@ -54,10 +54,13 @@ def make_dataset(dataset_dir, val_rate):
             shutil.copy(src, dst)
 
 
+root_dir = os.getcwd()
 # configでCNN、ハイパーパラメータや使用するデータを指定
-config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
+config = load_config(
+    config_path=pathlib.Path(os.path.join(root_dir, "config/config.json"))
+)
 
-dataset_dir = os.path.join("./data/", config.which_data)
+dataset_dir = os.path.join(root_dir, "data", config.which_data)
 
 val_rate = config.num_val / 16
 
