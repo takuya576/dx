@@ -58,7 +58,7 @@ nohup python main.py &
 
 + confusion_matrix(本当のラベルと予測ラベルの割合比較)
 + latent_space(潜在空間における入力データ分類)
-+ abs.txt
++ abst.txt
 + ~.png(精度グラフ、損失グラフ、検証データのサンプル画像)
 
 ## 実行パラメータ設定
