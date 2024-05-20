@@ -1,12 +1,42 @@
 # 建物AIプログラム
 
+このレポジトリをforkするなりして、使ってみてください。
 建物AIのプログラムは、基本的にGPU1,2を使います。
 gpu1,2へのユーザ登録はZhuさんにお願いしてください。
 とりあえず、GPU2という前提で以下の説明を書きます。
 
+## 画像データ(部屋の画像)の保管場所
+
+gpu2内の`/mnt/data-raid/{ユーザ名}`内に画像データは保管しましょう。
+プログラムのコード自体は、`/home/{ユーザ名}/`内に保管するので、このディレクトリ以下にデータ保存ディレクトリのシンボリックリンクを作ると便利です。
+坂本の場合
+`/mnt/data-raid/sakamoto/dx/coins_data`を`/home/sakamoto/dx/data`に紐づけてます。
+
+## 重要なファイル、ディレクトリ
+
+トップの階層を整備しました。
+以下のファイル、ディレクトリは流用出来ると思います。
+
++ config
++ data(シンボリックリンク)
++ pythonlibs
++ result
++ utils
++ .gitignore
++ main.py
++ g1_dx.def
++ g2_dx.def
++ gpu1_exec.sh
++ gpu2_exec.sh
++ main.py
++ README.md
+
+その他のディレクトリ、ファイルに関しては、今回整備していないので動くか不明です。消しちゃってもらって大丈夫です。
+ちなみに、坂本の卒業研究ではreduce_vibrationのディレクトリを使っていました。
+
 ## singularity(仮想環境、コンテナ)使用方法
 
-1. defファイル(コンテナの設計書)からsifファイル(コンテナのイメージファイル)をビルド
+1. defファイル(コンテナの設計書)からsifファイル(コンテナのイメージファイル)をビルド(defファイルがある階層で)
 
 ```
 singularity build --fakeroot g2_dx.sif  g2_dx.def
@@ -54,7 +84,7 @@ nohup python main.py &
 ```
 
 バックグラウンド実行を行うと、標準出力がnohup.outに出力される
-実行時、`~/dx/result`以下に検証結果が出力される(一例)
+実行時には、`~/dx/result/{config.which_data}`以下に実行時刻のディレクトリが作成され、検証結果が出力される(以下一例)
 
 + confusion_matrix(本当のラベルと予測ラベルの割合比較)
 + latent_space(潜在空間における入力データ分類)
