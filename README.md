@@ -69,7 +69,7 @@ exit
 
 ## データセット配置、分割
 
-坂本がslackに貼ったgoogledriveのリンク内のデータ(例えば、`坂本画像/data2`など)を、`~/dx/data/`に配置してみてください。
+坂本がslackに貼ったgoogledriveのリンク内のデータ(例えば、`坂本画像/data2`など)を、`/home/{ユーザ名}/dx/data/`に配置してみてください。
 
 data2のように、画像のラベルごとに0000~1111のディレクトリに分けられた画像データを配置します。
 
@@ -79,7 +79,7 @@ data2のように、画像のラベルごとに0000~1111のディレクトリに
 python utils/make_dataset.py
 ```
 
-`~/dx/data/{config.which_data}`内に`train`(訓練データ), `val`(検証データ)ディレクトリ作成されます。
+`/home/{ユーザ名}/dx/data/{config.which_data}`内に`train`(訓練データ), `val`(検証データ)ディレクトリ作成されます。
 
 ## プログラム実行方法
 
@@ -93,7 +93,7 @@ nohup python main.py &
 
 バックグラウンド実行を行うと、標準出力がnohup.outに出力される。
 
-実行時には、`~/dx/result/{config.which_data}`以下に実行時刻のディレクトリが作成され、検証結果が出力される(以下一例)。
+実行時には、`/home/{ユーザ名}/dx/result/{config.which_data}`以下に実行時刻のディレクトリが作成され、検証結果が出力される(以下一例)。
 
 + confusion_matrix(本当のラベルと予測ラベルの割合比較)
 + latent_space(潜在空間における入力データ分類)
@@ -102,7 +102,7 @@ nohup python main.py &
 
 ## 実行パラメータ設定
 
-`~/dx/config/config.json`に実行時のパラメータを設定
+`/home/{ユーザ名}/dx/config/config.json`に実行時のパラメータを設定
 
 ```
 # ディープラーニングに用いるパラメータ
