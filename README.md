@@ -85,8 +85,9 @@ python main.py
 nohup python main.py &
 ```
 
-バックグラウンド実行を行うと、標準出力がnohup.outに出力される
-実行時には、`~/dx/result/{config.which_data}`以下に実行時刻のディレクトリが作成され、検証結果が出力される(以下一例)
+バックグラウンド実行を行うと、標準出力がnohup.outに出力される。
+
+実行時には、`~/dx/result/{config.which_data}`以下に実行時刻のディレクトリが作成され、検証結果が出力される(以下一例)。
 
 + confusion_matrix(本当のラベルと予測ラベルの割合比較)
 + latent_space(潜在空間における入力データ分類)
