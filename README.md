@@ -37,7 +37,8 @@ gpu2内の`/mnt/data-raid/{ユーザ名}`内に画像データは保管しまし
 
 ## singularity(仮想環境、コンテナ)使用方法
 
-1. defファイル(コンテナの設計書)からsifファイル(コンテナのイメージファイル)をビルド(defファイルがある階層で)
+1. defファイル(コンテナの設計書)からsifファイル(コンテナのイメージファイル)をビルド
+(defファイルがある階層で)
 
 ```
 singularity build --fakeroot g2_dx.sif  g2_dx.def
