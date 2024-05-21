@@ -43,13 +43,20 @@ gpu2内の`/mnt/data-raid/{ユーザ名}`内に画像データは保管しまし
 singularity build --fakeroot g2_dx.sif  g2_dx.def
 ```
 
+だだし、defファイルは以下の部分を個人用に書き換えてください。
+
+```
+%files
+    /mnt/data-raid/{ユーザ名}/ /mnt
+```
+
 2. 以下のコマンドでコンテナ起動、コンテナに入る
 
 ```
 bash gpu2_exec.sh
 ```
 
-bashファイルの内容
+bashファイルの内容(個人用に書き換えてください)。
 
 ```
 #!bin/bash/
