@@ -45,13 +45,6 @@ defファイルがある階層にて以下を実行
 singularity build --fakeroot g2_dx.sif  g2_dx.def
 ```
 
-だだし、defファイルは以下の部分を個人用に書き換えてください。
-
-```
-%files
-    /mnt/data-raid/{ユーザ名}/ /mnt
-```
-
 2. 以下のコマンドでコンテナ起動、コンテナに入る
 
 ```

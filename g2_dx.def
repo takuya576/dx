@@ -19,7 +19,5 @@ From: pytorch/pytorch
     pip install opencv-contrib-python
 %environment
     export PATH="/usr/local/bin:$PATH"
-%files
-    /mnt/data-raid/sakamoto/ /mnt
 %runscript
     exec python "$@"
