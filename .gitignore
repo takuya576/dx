@@ -1,10 +1,10 @@
 *.out
 *.sif
 __pycache__/
-data/
+data
 coins_data_sin
 .history/
-generated_data/
-static/
-result/
+generated_data
+static
+result
 *.pth
