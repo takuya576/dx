@@ -1,7 +1,7 @@
 import json
 import pathlib
 
-from dataclass import Config
+from utils.dataclass import Config
 
 
 def load_config(config_path: pathlib.Path) -> Config:
