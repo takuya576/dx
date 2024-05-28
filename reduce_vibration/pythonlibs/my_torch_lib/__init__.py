@@ -173,7 +173,7 @@ def fit(
         if (epoch + 1) == num_epochs:
             if save_model is True:
                 model_save_dir = os.path.join(
-                    "/home/sakamoto/dx/static",
+                    "~/dx/static",
                     f"{which_data}",
                     f"{data_name}",
                 )

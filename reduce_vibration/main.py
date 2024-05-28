@@ -30,7 +30,7 @@ plt.rcParams["font.size"] = 18
 plt.tight_layout()
 
 # configでCNN、ハイパーパラメータや使用するデータを指定
-config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
+config = load_config(config_path=pathlib.Path("~/dx/config/config.json"))
 
 # 開始時間を記録
 start_time = time.time()
@@ -60,13 +60,13 @@ else:
 if config.generated:
     train_data_name = gen_params
     train_dir = os.path.join(
-        "/home/sakamoto/dx/generated_data/", which_data, train_data_name
+        "~/dx/generated_data/", which_data, train_data_name
     )
 else:
     train_data_name = config.train_data
-    train_dir = os.path.join("/home/sakamoto/dx/data/", which_data, train_data_name)
+    train_dir = os.path.join("~/dx/data/", which_data, train_data_name)
 
-test_dir = os.path.join("/home/sakamoto/dx/data", which_data, config.test_data)
+test_dir = os.path.join("~/dx/data", which_data, config.test_data)
 print(train_dir)
 
 # Get the current date and time
@@ -77,11 +77,11 @@ Time = now.strftime("%H-%M-%S")
 # Create the directory name
 when = f"{Date}_{Time}"
 
-save_dir = os.path.join("/home/sakamoto/dx/result", which_data, when)
+save_dir = os.path.join("~/dx/result", which_data, when)
 os.makedirs(save_dir, exist_ok=True)
 
 # 実行時jsonを保存する
-shutil.copy(src="/home/sakamoto/dx/config/config.json", dst=save_dir)
+shutil.copy(src="~/dx/config/config.json", dst=save_dir)
 
 # remove augumentation in train
 train_transform = transforms.Compose(

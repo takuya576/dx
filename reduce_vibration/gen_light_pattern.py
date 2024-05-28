@@ -10,13 +10,13 @@ from utils.image_processing import ImageProcessing
 from utils.load_save import load_config
 
 # configでCNN、ハイパーパラメータや使用するデータを指定
-config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
+config = load_config(config_path=pathlib.Path("~/dx/config/config.json"))
 
-input_dir = "/home/sakamoto/dx/data/data6/data6_1case2"  # 画像ファイルがあるディレクトリのパス
+input_dir = "~/dx/data/data6/data6_1case2"  # 画像ファイルがあるディレクトリのパス
 
 if config.sigmoid is True:
     output_dir = os.path.join(
-        "/home/sakamoto/dx/generated_data/data6",
+        "~/dx/generated_data/data6",
         str(config.alpha)
         + "_"
         + str(config.beta)
@@ -27,7 +27,7 @@ if config.sigmoid is True:
     )  # 処理後の画像を保存するディレクトリのパス
 else:
     output_dir = os.path.join(
-        "/home/sakamoto/dx/generated_data/data6",
+        "~/dx/generated_data/data6",
         str(config.alpha) + "_" + str(config.beta) + "_" + str(config.sigmoid),
     )  # 処理後の画像を保存するディレクトリのパス
 

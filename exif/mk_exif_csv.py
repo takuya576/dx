@@ -6,7 +6,7 @@ import os
 import glob
 import numpy as np
 
-result_dir = "/home/sakamoto/dx/result/"
+result_dir = "~/dx/result/"
 which_data = "data1"
 
 data_dir = os.path.join("coins_data_sin", which_data)
@@ -14,7 +14,7 @@ data_dir = os.path.join("coins_data_sin", which_data)
 
 # exif情報のtagを全て取得する
 def exif_tags():
-    image = Image.open("/home/sakamoto/dx/coins_data_sin/data1/0000/IMG_8923.jpeg")
+    image = Image.open("~/dx/coins_data_sin/data1/0000/IMG_8923.jpeg")
     exif_dict = image.getexif()
     # exifタグ情報の取得
     pvtag_dict = exif_dict.get_ifd(34665)

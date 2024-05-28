@@ -6,4 +6,5 @@ coins_data_sin
 .history/
 generated_data/
 static/
+result/
 *.pth

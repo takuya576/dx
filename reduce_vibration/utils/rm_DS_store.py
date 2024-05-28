@@ -12,7 +12,7 @@ def delete_ds_store(directory):
 
 if __name__ == "__main__":
     target_directory = (
-        "/home/sakamoto/dx/data/data4/data4_1case_merged"  # 対象のディレクトリのパスを指定してください
+        "~/dx/data/data4/data4_1case_merged"  # 対象のディレクトリのパスを指定してください
     )
 
     delete_ds_store(target_directory)

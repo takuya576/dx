@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # 画像を読み込む
-image = cv2.imread("/home/sakamoto/dx/data/data4_1case/0010/IMG_0310.JPG")
+image = cv2.imread("~/dx/data/data4_1case/0010/IMG_0310.JPG")
 # コントラストと明るさの変更
 alpha = 0.6  # コントラストの倍率（1より大きい値でコントラストが上がる）
 beta = 0  # 明るさの調整値（正の値で明るくなる）

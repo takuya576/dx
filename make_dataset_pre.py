@@ -18,7 +18,7 @@ class_list = [
     for i4 in range(0, 2)
 ]
 
-config = load_config(config_path=pathlib.Path("/home/sakamoto/dx/config/config.json"))
+config = load_config(config_path=pathlib.Path("~/dx/config/config.json"))
 val_rate = config.num_val / 16
 
 if os.path.isdir(os.path.join(dataset_dir, "train")) is True:

@@ -12,7 +12,7 @@ from tqdm import tqdm
 # ReadMe
 README = "Common Library for PyTorch\nAuthor: M. Akaishi"
 
-result_dir = "/home/sakamoto/dx/result/"
+result_dir = "~/dx/result/"
 
 
 def delete_previous_line(file_path):
@@ -354,7 +354,7 @@ def show_images_labels(loader, classes, net, device, which_data):
         ax.set_axis_off()
     os.makedirs(os.path.join(result_dir, which_data), exist_ok=True)
     plt.savefig(
-        os.path.join("/home/sakamoto/dx/result/", which_data, "image_labels.jpg")
+        os.path.join("~/dx/result/", which_data, "image_labels.jpg")
     )
     # plt.savefig("/mnt/image_labels.png")
     plt.show()
@@ -406,7 +406,7 @@ def show_images_labels_for_exif(loader, classes, net, device, which_data):
         ax.set_axis_off()
     os.makedirs(os.path.join(result_dir, which_data), exist_ok=True)
     plt.savefig(
-        os.path.join("/home/sakamoto/dx/result/", which_data, "image_labels.jpg")
+        os.path.join("~/dx/result/", which_data, "image_labels.jpg")
     )
     # plt.savefig("/mnt/image_labels.png")
     plt.show()

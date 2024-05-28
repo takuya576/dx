@@ -7,19 +7,19 @@ import numpy as np
 import pandas as pd
 
 df_1case = pd.read_csv(
-    "/home/sakamoto/dx/result/data6/2024-01-26_18-40-38/history.csv", header=None
+    "~/dx/result/data6/2024-01-26_18-40-38/history.csv", header=None
 )
 df_sig = pd.read_csv(
-    "/home/sakamoto/dx/result/data6/2024-01-27_15-32-03/history.csv", header=None
+    "~/dx/result/data6/2024-01-27_15-32-03/history.csv", header=None
 )
 df_10 = pd.read_csv(
-    "/home/sakamoto/dx/result/data6/2024-01-27_15-01-20/history.csv", header=None
+    "/result/data6/2024-01-27_15-01-20/history.csv", header=None
 )
 df_20 = pd.read_csv(
-    "/home/sakamoto/dx/result/data6/2024-01-27_14-31-09/history.csv", header=None
+    "~/dx/result/data6/2024-01-27_14-31-09/history.csv", header=None
 )
 df_50 = pd.read_csv(
-    "/home/sakamoto/dx/result/data6/2024-01-27_13-46-44/history.csv", header=None
+    "~/dx/result/data6/2024-01-27_13-46-44/history.csv", header=None
 )
 
 num_epochs = len(df_1case)

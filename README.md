@@ -16,7 +16,7 @@ scp -r {ローカルの画像ディレクトリ} gpu2:/mnt/data-raid/<username>/
 プログラムのコード自体は、`/home/{ユーザ名}/`内に保管するので、`/home/{ユーザ名}/`以下に保管ディレクトリのシンボリックリンクを作ると便利です。
 
 坂本の場合
-`/mnt/data-raid/sakamoto/dx/coins_data`を`/home/sakamoto/dx/data`に紐づけてます。
+`/mnt/data-raid/sakamoto/dx/coins_data`を`~/dx/data`に紐づけてます。
 
 ```
 ln -s <リンク対象のファイルまたはフォルダのパス> <作成するリンクのパス>
@@ -124,7 +124,7 @@ nohup python main.py &
 "num_epochs": 1,
 "batch_size": 10,
 "nvidia": 0, # 使用するGPUは 0 or 1　が指定できる
-"num_val": 8, # `~/dx/utils/make_dataset.py`を実行するとき用いる(検証データの比率)
+"num_val": 8, # `~/dx/dx/utils/make_dataset.py`を実行するとき用いる(検証データの比率)
 
 # どのデータセットを用いるかを指定
 "which_data": "data2", # どのデータを用いるか
