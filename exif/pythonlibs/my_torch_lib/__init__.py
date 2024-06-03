@@ -12,7 +12,7 @@ from tqdm import tqdm
 # ReadMe
 README = "Common Library for PyTorch\nAuthor: M. Akaishi"
 
-result_dir = "~/dx/result/"
+result_dir = os.path.join(os.path.expanduser("~/dx"), "result/")
 
 
 def delete_previous_line(file_path):
@@ -272,7 +272,9 @@ def evaluate_history(history, which_data):
     print(f"初期状態: 損失: {history[0,3]:.5f} 精度: {history[0,4]:.5f}")
     print(f"最終状態: 損失: {history[-1,3]:.5f} 精度: {history[-1,4]:.5f}")
     max_index = np.argmax(history[:, 4])
-    print(f"best score: 損失: {history[max_index,3]:.5f} 精度: {history[max_index,4]:.5f}")
+    print(
+        f"best score: 損失: {history[max_index,3]:.5f} 精度: {history[max_index,4]:.5f}"
+    )
 
     num_epochs = len(history)
     if num_epochs < 10:
@@ -354,7 +356,11 @@ def show_images_labels(loader, classes, net, device, which_data):
         ax.set_axis_off()
     os.makedirs(os.path.join(result_dir, which_data), exist_ok=True)
     plt.savefig(
-        os.path.join("~/dx/result/", which_data, "image_labels.jpg")
+        os.path.join(
+            os.path.join(
+                os.path.expanduser("~/dx"), "result/", which_data, "image_labels.jpg"
+            )
+        )
     )
     # plt.savefig("/mnt/image_labels.png")
     plt.show()
@@ -406,7 +412,11 @@ def show_images_labels_for_exif(loader, classes, net, device, which_data):
         ax.set_axis_off()
     os.makedirs(os.path.join(result_dir, which_data), exist_ok=True)
     plt.savefig(
-        os.path.join("~/dx/result/", which_data, "image_labels.jpg")
+        os.path.join(
+            os.path.join(
+                os.path.expanduser("~/dx"), "result/", which_data, "image_labels.jpg"
+            )
+        )
     )
     # plt.savefig("/mnt/image_labels.png")
     plt.show()

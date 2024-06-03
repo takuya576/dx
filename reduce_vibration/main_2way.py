@@ -28,7 +28,11 @@ from utils.make_dataset import make_dataset
 plt.rcParams["font.size"] = 18
 plt.tight_layout()
 
-config = load_config(config_path=pathlib.Path("~/dx/config/config.json"))
+config = load_config(
+    config_path=pathlib.Path(
+        os.path.join(os.path.expanduser("~/dx"), "config/config.json")
+    )
+)
 
 # dataset_dir = "./data/data4_all_cases"
 
@@ -49,9 +53,15 @@ device = torch.device(
 
 which_data = config.which_data
 
-train1_dir = os.path.join("~/dx/data", config.train_data_1)
-train2_dir = os.path.join("~/dx/data", config.train_data_2)
-test_dir = os.path.join("~/dx/data", config.test_data)
+train1_dir = os.path.join(
+    os.path.join(os.path.expanduser("~/dx"), "data"), config.train_data_1
+)
+train2_dir = os.path.join(
+    os.path.join(os.path.expanduser("~/dx"), "data"), config.train_data_2
+)
+test_dir = os.path.join(
+    os.path.join(os.path.expanduser("~/dx"), "data"), config.test_data
+)
 
 # Get the current date and time
 now = datetime.now()
@@ -61,11 +71,15 @@ Time = now.strftime("%H-%M-%S")
 # Create the directory name
 when = f"{Date}_{Time}"
 
-save_dir = os.path.join("~/dx/result", which_data, when)
+save_dir = os.path.join(
+    os.path.join(os.path.expanduser("~/dx"), "result"), which_data, when
+)
 os.makedirs(save_dir, exist_ok=True)
 
 # 実行時jsonを保存する
-shutil.copy(src="~/dx/config/config.json", dst=save_dir)
+shutil.copy(
+    src=os.path.join(os.path.expanduser("~/dx"), "config/config.json"), dst=save_dir
+)
 
 
 test_transform = transforms.Compose(

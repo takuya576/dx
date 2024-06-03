@@ -11,8 +11,8 @@ def delete_ds_store(directory):
 
 
 if __name__ == "__main__":
-    target_directory = (
-        "~/dx/data/data4/data4_1case_merged"  # 対象のディレクトリのパスを指定してください
-    )
+    target_directory = os.path.join(
+        os.path.expanduser("~/dx"), "data/data4/data4_1case_merged"
+    )  # 対象のディレクトリのパスを指定してください
 
     delete_ds_store(target_directory)

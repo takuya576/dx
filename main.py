@@ -27,7 +27,11 @@ plt.rcParams["font.size"] = 18
 plt.tight_layout()
 
 # configでCNN、ハイパーパラメータや使用するデータを指定
-config = load_config(config_path=pathlib.Path("~/dx/config/config.json"))
+config = load_config(
+    config_path=pathlib.Path(
+        (os.path.join(os.path.expanduser("~/dx"), "config/config.json"))
+    )
+)
 
 # 開始時間を記録
 start_time = time.time()
@@ -55,11 +59,15 @@ Time = now.strftime("%H-%M-%S")
 # Create the directory name
 when = f"{Date}_{Time}"
 
-save_dir = os.path.join("~/dx/result", which_data, when)
+save_dir = os.path.join(
+    os.path.join(os.path.expanduser("~/dx"), "result"), which_data, when
+)
 os.makedirs(save_dir, exist_ok=True)
 
 # 実行時jsonを保存する
-shutil.copy(src="~/dx/config/config.json", dst=save_dir)
+shutil.copy(
+    src=os.path.join(os.path.expanduser("~/dx"), "config/config.json"), dst=save_dir
+)
 
 
 test_transform = transforms.Compose(

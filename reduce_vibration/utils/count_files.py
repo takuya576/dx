@@ -15,7 +15,7 @@ def count_JPG_files(directory):
 
 
 file_count, jpg_count = count_JPG_files(
-    "~/dx/data/data6/data6_all_cases2"
+    os.path.join(os.path.expanduser("~/dx"), "data/data6/data6_all_cases2")
 )
 print("all files: ", file_count)
 print("jpg files: ", jpg_count)
