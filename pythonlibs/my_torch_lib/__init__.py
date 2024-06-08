@@ -82,7 +82,7 @@ def fit(
 
         # train_progress_bar = tqdm(total=len(train_loader), leave=False)
         # for inputs, labels in train_loader:
-        for inputs, labels in tqdm(train_loader, leave=False, disable=False):
+        for inputs, labels in tqdm(train_loader, leave=False, disable=True):
             # 1バッチあたりのデータ件数
             train_batch_size = len(labels)
             # 1エポックあたりのデータ累積件数

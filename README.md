@@ -1,10 +1,24 @@
 # 建物AIプログラム
 
+## 研究成果
+
+**対外発表**
+
+- Takuya Sakamoto, Yuji Aizono, Hideya Ochiai, Hiroshi Esaki, “Augmenting Room Light Patterns for Building Automation with Camera Images and Vision Transformer”, 2024 16th International Conference on Knowledge and Smart Technology (KST), Krabi, Thailand, 2024年1月14日に採択, 3月1日に発表.
+([論文](https://drive.google.com/file/d/1ak7V3B5unMMQqzjsubCvrZEn4vvBEb1g/view?usp=drive_link), [発表スライド](https://drive.google.com/file/d/1olXuFwkhMZTxBBsUlgG9cgOfW50aE4Yc/view?usp=drive_link))
+
+**卒業論文**
+
+- 坂本拓彌, 相園悠之, 落合秀也, 江崎浩, “カメラ画像による建物設備制御のためのLighting Pattern Augmentation”, 2024年2月13日に発表.
+([論文](https://drive.google.com/file/d/1KWouzVKaTgMO3_aRj5VYl37fN7bNv7_F/view?usp=drive_link), [発表スライド](https://drive.google.com/file/d/1Ms0Gv0a2sYZjgdE5suFYA5pnyiLHpsKM/view?usp=drive_link))
+
+## 使用方法(for B4)
+
 このレポジトリをforkするなりして、使ってみてください。
 建物AIのプログラムは、基本的にGPU1,2を使います。
 とりあえず、GPU2という前提で以下の説明を書きます。
 
-## 画像データ(部屋の画像)の保管場所
+### 画像データ(部屋の画像)の保管場所
 
 gpu2内の`/mnt/data-raid/{ユーザ名}`内に画像データは保管しましょう。
 ドライブからローカルに画像をダウンロードして、scpで送信gpu2に送信。
@@ -22,29 +36,29 @@ scp -r {ローカルの画像ディレクトリ} gpu2:/mnt/data-raid/<username>/
 ln -s <リンク対象のファイルまたはフォルダのパス> <作成するリンクのパス>
 ```
 
-## 重要なファイル、ディレクトリ
+### 重要なファイル、ディレクトリ
 
 トップの階層を整備しました。
 以下のファイル、ディレクトリは流用出来ると思います。
 
-+ config
-+ data(シンボリックリンク)
-+ pythonlibs
-+ result
-+ utils
-+ .gitignore
-+ main.py
-+ g1_dx.def
-+ g2_dx.def
-+ gpu1_exec.sh
-+ gpu2_exec.sh
-+ main.py
-+ README.md
+- config
+- data(シンボリックリンク)
+- pythonlibs
+- result
+- utils
+- .gitignore
+- main.py
+- g1_dx.def
+- g2_dx.def
+- gpu1_exec.sh
+- gpu2_exec.sh
+- main.py
+- README.md
 
 その他のディレクトリ、ファイルに関しては、今回整備していないので動くか不明です。消しちゃってもらって大丈夫です。
 ちなみに、坂本の卒業研究ではreduce_vibrationのディレクトリを使っていました。
 
-## singularity(仮想環境、コンテナ)使用方法
+### singularity(仮想環境、コンテナ)使用方法
 
 1. defファイル(コンテナの設計書)からsifファイル(コンテナのイメージファイル)をビルド
 
@@ -77,7 +91,7 @@ exit
 
 4. 今後、コンテナに入るときは、２番を行う
 
-## データセット配置、分割
+### データセット配置、分割
 
 坂本がslackに貼ったgoogledriveのリンク内のデータ(例えば、`坂本画像/data2`など)を、`/home/{ユーザ名}/dx/data/`に配置してみてください。
 
@@ -91,7 +105,7 @@ python utils/make_dataset.py
 
 `/home/{ユーザ名}/dx/data/{config.which_data}`内に`train`(訓練データ), `val`(検証データ)ディレクトリ作成されます。
 
-## プログラム実行方法
+### プログラム実行方法
 
 ```
 # 通常の実行
@@ -105,12 +119,12 @@ nohup python main.py &
 
 実行時には、`/home/{ユーザ名}/dx/result/{config.which_data}`以下に実行時刻のディレクトリが作成され、検証結果が出力される(以下一例)。
 
-+ confusion_matrix(本当のラベルと予測ラベルの割合比較)
-+ latent_space(潜在空間における入力データ分類)
-+ abst.txt
-+ ~.png(精度グラフ、損失グラフ、検証データのサンプル画像)
+- confusion_matrix(本当のラベルと予測ラベルの割合比較)
+- latent_space(潜在空間における入力データ分類)
+- abst.txt
+- ~.png(精度グラフ、損失グラフ、検証データのサンプル画像)
 
-## 実行パラメータ設定
+### 実行パラメータ設定
 
 `/home/{ユーザ名}/dx/config/config.json`に実行時のパラメータを設定
 
