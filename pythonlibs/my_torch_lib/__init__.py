@@ -1,3 +1,4 @@
+import csv
 import os
 
 import japanize_matplotlib  # noqa
@@ -77,6 +78,16 @@ def fit(
         # 1エポックあたりのデータ累積件数
         n_train, n_test = 0, 0
 
+        # balanced_accuracyを計算するための辞書
+        balanced_acc_dict = {
+            "label": {str(i1): 0 for i1 in range(0, 15)},
+            "train": {str(i1): 0 for i1 in range(0, 15)},
+            "label_test": {str(i1): 0 for i1 in range(0, 15)},
+            "test": {str(i1): 0 for i1 in range(0, 15)},
+            "train_BA": 0,
+            "test_BA": 0,
+        }
+
         # 訓練フェーズ
         net.train()
 
@@ -115,8 +126,11 @@ def fit(
             train_loss += loss.item() * train_batch_size
             n_train_acc += (predicted == labels).sum().item()
 
-            # # Update the progress bar manually
-            # train_progress_bar.update(1)
+            # trainデータの予測ラベルに対して、各ラベルごとの出現回数をカウント
+            for i in range(len(labels)):
+                balanced_acc_dict["label"][str(labels[i].item())] += 1
+                if predicted[i].item() == labels[i].item():
+                    balanced_acc_dict["train"][str(predicted[i].item())] += 1
 
         # 予測フェーズ
         net.eval()
@@ -140,7 +154,7 @@ def fit(
             # 予測ラベル導出
             predicted_test = torch.max(outputs_test, 1)[1]
 
-            #  平均前の損失と正解数の計算
+            #  平均前の損失と正解数(4bit中何個正しいか)の計算
             # lossは平均計算が行われているので平均前の損失に戻して加算
             val_loss += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
@@ -148,6 +162,12 @@ def fit(
                     (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
                 )
                 n_val_acc[correct] += 1
+
+            # testデータの予測ラベルについて、各ラベルごとの出現回数をカウント
+            for i in range(len(labels_test)):
+                balanced_acc_dict["label_test"][str(labels_test[i].item())] += 1
+                if predicted_test[i].item() == labels_test[i].item():
+                    balanced_acc_dict["test"][str(predicted_test[i].item())] += 1
 
         # # Close the progress bars
         # train_progress_bar.close()
@@ -159,30 +179,62 @@ def fit(
         avg_train_loss = train_loss / n_train
         avg_val_loss = val_loss / n_test
 
+        # balanced_accuracy計算
+        non_zero_label = 0
+        for i in range(15):
+            # データセットに存在しないラベルの場合は0を加算
+            if balanced_acc_dict["label"][str(i)] == 0:
+                balanced_acc_dict["train_BA"] += 0
+            else:
+                non_zero_label += 1
+                balanced_acc_dict["train_BA"] += (
+                    balanced_acc_dict["train"][str(i)]
+                    / balanced_acc_dict["label"][str(i)]
+                )
+
+            # データセットに存在しないラベルの場合は0を加算
+            if balanced_acc_dict["label_test"][str(i)] == 0:
+                balanced_acc_dict["test_BA"] += 0
+            else:
+                balanced_acc_dict["test_BA"] += (
+                    balanced_acc_dict["test"][str(i)]
+                    / balanced_acc_dict["label_test"][str(i)]
+                )
+        balanced_acc_dict["train_BA"] /= non_zero_label
+        balanced_acc_dict["test_BA"] /= non_zero_label
+
         # 結果表示
         print(
-            f"Epoch [{(epoch+1)}/{num_epochs+base_epochs}],"
-            f"loss: {avg_train_loss:.5f} acc: {train_acc:.5f} val_loss: {avg_val_loss:.5f}, val_acc: {val_acc[4]:.5f}"
+            f"Epoch [{(epoch+1)}/{num_epochs+base_epochs}]:"
+            f"loss: {avg_train_loss:.5f}, acc: {train_acc:.5f}, BA: {balanced_acc_dict['train_BA']:.5f}, "
+            f"val_loss: {avg_val_loss:.5f}, val_acc: {val_acc[4]:.5f}, val_BA: {balanced_acc_dict['test_BA']:.5f}"
         )
         # 記録
-        item = np.array([epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc])
+        item = np.array(
+            [
+                epoch + 1,
+                avg_train_loss,
+                train_acc,
+                avg_val_loss,
+                *val_acc,
+                balanced_acc_dict["train_BA"],
+                balanced_acc_dict["test_BA"],
+            ]
+        )
         history = np.vstack((history, item))
 
         # モデルを保存
-        if epoch == num_epochs:
+        if (epoch + 1) == num_epochs:
             if save_model is True:
                 torch.save(
                     net,
                     os.path.join(
-                        os.path.expanduser("~"),
-                        "static",
-                        f"{which_data}",
-                        f"{program_name}",
+                        save_dir,
                         f"epoch{epoch}.pth",
                     ),
                 )
 
-        if epoch % 25 == 0 or epoch == num_epochs:
+        if epoch % 25 == 0 or (epoch + 1) == num_epochs:
             if save_cm_ls is True:
                 make_cm(device, epoch, test_loader, save_dir, net)
                 make_ls(device, epoch, test_loader, save_dir, net)
@@ -624,10 +676,11 @@ def evaluate_history(history, save_dir, data_name=None):
         newline="\n",
     )
     datalines = [
-        f"{data_name}\n",
-        f"初期状態: 損失: {history[0,3]:.5f} 精度: {history[0,8]:.5f}\n",
-        f"最終状態: 損失: {history[-1,3]:.5f} 精度: {history[-1,8]:.5f}\n",
-        f"max: 損失: {history[max_index,3]:.5f} 精度: {history[max_index,8]:.5f}\n",
+        f"使用した訓練データ: {data_name}\n\n",
+        "検証データの成績\n",
+        f"初期状態: 損失: {history[0,3]:.5f} 精度: {history[0,8]:.5f} BA: {history[0,10]:.5f}\n",
+        f"最終状態: 損失: {history[-1,3]:.5f} 精度: {history[-1,8]:.5f} BA: {history[-1,10]:.5f}\n",
+        f"max(精度): 損失: {history[max_index,3]:.5f} 精度: {history[max_index,8]:.5f} BA: {history[max_index,10]:.5f}\n",
     ]
     result_f.writelines(datalines)
     result_f.close()
@@ -666,6 +719,20 @@ def evaluate_history(history, save_dir, data_name=None):
     plt.legend()
     plt.savefig(os.path.join(save_dir, f"{data_name}_acc.png"))
     plt.show()
+
+
+def save_history_to_csv(history, save_dir):
+    # 配列をCSVに保存する関数
+    filename = os.path.join(save_dir, "history.csv")
+
+    with open(filename, "w", newline="") as csvfile:
+        csvwriter = csv.writer(csvfile)
+
+        # 配列をCSVファイルに書き込む
+        for row in history:
+            csvwriter.writerow(row)
+
+    print(f"配列が {filename} に保存されました。")
 
 
 # 学習ログ解析

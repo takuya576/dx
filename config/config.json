@@ -1,5 +1,5 @@
 {
-    "net": "vit_b_16",
+    "net": "resnet152",
     "pretrained": true,
     "transfer": false,
     "lr": 0.001,

@@ -17,6 +17,7 @@ from torch.utils.data import DataLoader
 from pythonlibs.my_torch_lib import (
     evaluate_history,
     fit,
+    save_history_to_csv,
     show_images_labels,
     torch_seed,
 )
@@ -119,12 +120,17 @@ net = model_mapping[config.net](pretrained=config.pretrained)
 torch_seed()
 
 # vitを使うときはこれ
-fc_in_features = net.heads.head.in_features
-net.heads.head = nn.Linear(fc_in_features, 16)
+# fc_in_features = net.heads.head.in_features
+# net.heads.head = nn.Linear(fc_in_features, 16)
 
-# vggなどを使うときはこっち
-# fc_in_features = net.fc.in_features
-# net.fc = nn.Linear(fc_in_features, 16)
+# resnetなどを使うときはこっち
+fc_in_features = net.fc.in_features
+net.fc = nn.Linear(fc_in_features, 16)
+
+# vgg19
+# in_features = net.classifier[6].in_features
+# net.classifier[6] = nn.Linear(in_features, 16)
+# net.avgpool = nn.Identity()
 
 
 net = net.to(device)
@@ -133,7 +139,7 @@ criterion = nn.CrossEntropyLoss()
 
 optimizer = optim.SGD(net.parameters(), lr=config.lr, momentum=config.momentum)
 
-history = np.zeros((0, 9))
+history = np.zeros((0, 11))
 
 
 num_epochs = config.num_epochs
@@ -153,6 +159,8 @@ history = fit(
     True,
     True,
 )
+
+save_history_to_csv(history, save_dir)
 
 evaluate_history(history, save_dir, config.train_data)
 
