@@ -119,15 +119,19 @@ net = model_mapping[config.net](pretrained=config.pretrained)
 
 torch_seed()
 
+if config.transfer:
+    for param in net.parameters():
+        param.requires_grad = False
+
 # vitを使うときはこれ
-# fc_in_features = net.heads.head.in_features
-# net.heads.head = nn.Linear(fc_in_features, 16)
+fc_in_features = net.heads.head.in_features
+net.heads.head = nn.Linear(fc_in_features, 16)
 
 # resnetなどを使うときはこっち
-fc_in_features = net.fc.in_features
-net.fc = nn.Linear(fc_in_features, 16)
+# fc_in_features = net.fc.in_features
+# net.fc = nn.Linear(fc_in_features, 16)
 
-# vgg19
+# vggなどを使うときはこっち
 # in_features = net.classifier[6].in_features
 # net.classifier[6] = nn.Linear(in_features, 16)
 # net.avgpool = nn.Identity()
