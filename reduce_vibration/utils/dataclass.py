@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class Config:
     net: str
-    pretrained: bool
+    weights: bool
     transfer: bool
     lr: float
     momentum: float

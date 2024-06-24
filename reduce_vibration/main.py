@@ -142,7 +142,7 @@ test_loader_for_check = DataLoader(
     test_data, batch_size=50, num_workers=4, pin_memory=True, shuffle=True
 )
 
-net = model_mapping[config.net](pretrained=config.pretrained)
+net = model_mapping[config.net](weights=config.weights)
 
 if config.transfer:
     for param in net.parameters():

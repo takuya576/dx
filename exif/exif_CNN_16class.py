@@ -8,20 +8,18 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
-from torch.utils.data import DataLoader
-from torchvision import models
-from torchinfo import summary
-
+from exif_ImageFolder import exif_ImageFolder
 from sakamoto_CNN_exif import CNN_v4
+from torch.utils.data import DataLoader
+from torchinfo import summary
+from torchvision import models
+
 from pythonlibs.my_torch_lib import (
     evaluate_history,
     fit_for_exif,
     show_images_labels_for_exif,
     torch_seed,
 )
-
-
-from exif_ImageFolder import exif_ImageFolder
 
 warnings.simplefilter("ignore")
 plt.rcParams["axes.grid"] = True

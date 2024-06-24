@@ -30,7 +30,7 @@ plt.tight_layout()
 # configでCNN、ハイパーパラメータや使用するデータを指定
 config = load_config(
     config_path=pathlib.Path(
-        (os.path.join(os.path.expanduser("~/dx"), "config/config.json"))
+        (os.path.join(os.path.expanduser("~/dx"), "config/config.toml"))
     )
 )
 
@@ -49,7 +49,9 @@ which_data = config.which_data
 
 root_dir = os.getcwd()
 
-train_dir = os.path.join(root_dir, "data", config.which_data, config.train_data)
+train_dir = os.path.join(
+    root_dir, "data", config.which_data, config.train_data
+)
 test_dir = os.path.join(root_dir, "data", config.which_data, config.test_data)
 
 # Get the current date and time
@@ -67,7 +69,8 @@ os.makedirs(save_dir, exist_ok=True)
 
 # 実行時jsonを保存する
 shutil.copy(
-    src=os.path.join(os.path.expanduser("~/dx"), "config/config.json"), dst=save_dir
+    src=os.path.join(os.path.expanduser("~/dx"), "config/config.json"),
+    dst=save_dir,
 )
 
 
@@ -104,18 +107,27 @@ train_data = datasets.ImageFolder(train_dir, transform=test_transform)
 test_data = datasets.ImageFolder(test_dir, transform=test_transform)
 
 train_loader = DataLoader(
-    train_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=True
+    train_data,
+    batch_size=batch_size,
+    num_workers=2,
+    pin_memory=True,
+    shuffle=True,
 )
 
 test_loader = DataLoader(
-    test_data, batch_size=batch_size, num_workers=2, pin_memory=True, shuffle=False
+    test_data,
+    batch_size=batch_size,
+    num_workers=2,
+    pin_memory=True,
+    shuffle=False,
 )
 
 test_loader_for_check = DataLoader(
     test_data, batch_size=50, num_workers=2, pin_memory=True, shuffle=True
 )
 
-net = model_mapping[config.net](pretrained=config.pretrained)
+net = model_mapping[config.net](weights=config.weights)
+
 
 torch_seed()
 

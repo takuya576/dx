@@ -8,10 +8,10 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
+from exif_ImageFolder import exif_ImageFolder
 from torch.utils.data import DataLoader
-from torchvision import models
 from torchinfo import summary
-
+from torchvision import models
 
 from pythonlibs.my_torch_lib import (
     evaluate_history,
@@ -19,8 +19,6 @@ from pythonlibs.my_torch_lib import (
     show_images_labels_for_exif,
     torch_seed,
 )
-from exif_ImageFolder import exif_ImageFolder
-
 
 warnings.simplefilter("ignore")
 plt.rcParams["axes.grid"] = True
@@ -85,7 +83,7 @@ test_loader2 = DataLoader(test_data, batch_size=50, shuffle=True)
 
 show_images_labels_for_exif(test_loader2, classes, None, None, which_data_)
 
-net = models.vgg19_bn(pretrained=True)
+net = models.vgg19_bn(weights=True)
 
 
 for param in net.parameters():

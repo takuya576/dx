@@ -132,8 +132,8 @@ test_loader = DataLoader(
     test_data, batch_size=50, num_workers=2, pin_memory=True, shuffle=True
 )
 
-net1 = model_mapping[config.net](pretrained=config.pretrained)
-net2 = model_mapping[config.net](pretrained=config.pretrained)
+net1 = model_mapping[config.net](weights=config.weights)
+net2 = model_mapping[config.net](weights=config.weights)
 
 torch_seed()
 

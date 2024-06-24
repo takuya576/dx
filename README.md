@@ -131,7 +131,7 @@ nohup python main.py &
 ```
 # ディープラーニングに用いるパラメータ
 "net": "vit_b_16", # 用いる学習器
-"pretrained": true, # 事前学習の有無
+"weights": true, # 事前学習の有無
 "transfer": false, # ファインチューニング：True、転移学習：False
 "lr": 0.001,
 "momentum": 0.9,
