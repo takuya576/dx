@@ -58,15 +58,7 @@ def save_confusion_matrix(
         plt.savefig(save_path)
 
 
-def make_cm(device, epoch, test_loader, save_dir, net):
-    classes = [
-        str(i1) + str(i2) + str(i3) + str(i4)
-        for i1 in range(0, 2)
-        for i2 in range(0, 2)
-        for i3 in range(0, 2)
-        for i4 in range(0, 2)
-    ]
-
+def make_cm(device, epoch, classes, test_loader, save_dir, net):
     y_preds = []
     y_tests = []
 
@@ -79,10 +71,11 @@ def make_cm(device, epoch, test_loader, save_dir, net):
 
             y_output = net(x_test)
 
-            if len(y_output[0]) == 16:  # 16class
+            if len(y_output[0]) == len(classes):
                 _, y_pred = torch.max(y_output.data, 1)
 
             else:  # vector
+                # 16クラスでない場合に対応してないので、要修正
                 outputs_sig = torch.sigmoid(y_output)
                 predicted_vec = torch.where(outputs_sig < 0.5, 0, 1)
                 y_pred = torch.tensor(

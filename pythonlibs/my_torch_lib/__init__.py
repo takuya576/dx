@@ -36,6 +36,7 @@ def fit(
     optimizer,
     criterion,
     num_epochs,
+    classes,
     train_loader,
     test_loader,
     device,
@@ -48,7 +49,7 @@ def fit(
 ):
     base_epochs = len(history)
 
-    classes = torch.tensor(
+    tensor_classes = torch.tensor(
         [
             [0.0, 0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0, 1.0],
@@ -159,15 +160,24 @@ def fit(
             val_loss += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (
+                        tensor_classes[predicted_test[i]]
+                        == tensor_classes[labels_test[i]]
+                    )
+                    .sum()
+                    .item()
                 )
                 n_val_acc[correct] += 1
 
             # testデータの予測ラベルについて、各ラベルごとの出現回数をカウント
             for i in range(len(labels_test)):
-                balanced_acc_dict["label_test"][str(labels_test[i].item())] += 1
+                balanced_acc_dict["label_test"][
+                    str(labels_test[i].item())
+                ] += 1
                 if predicted_test[i].item() == labels_test[i].item():
-                    balanced_acc_dict["test"][str(predicted_test[i].item())] += 1
+                    balanced_acc_dict["test"][
+                        str(predicted_test[i].item())
+                    ] += 1
 
         # # Close the progress bars
         # train_progress_bar.close()
@@ -236,7 +246,7 @@ def fit(
 
         if epoch % 25 == 0 or (epoch + 1) == num_epochs:
             if save_cm_ls is True:
-                make_cm(device, epoch, test_loader, save_dir, net)
+                make_cm(device, epoch, classes, test_loader, save_dir, net)
                 make_ls(device, epoch, test_loader, save_dir, net)
 
     return history
@@ -406,7 +416,9 @@ def comp_val_acc(
             val_loss1 += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (classes[predicted_test[i]] == classes[labels_test[i]])
+                    .sum()
+                    .item()
                 )
                 n_val_acc1[correct] += 1
 
@@ -440,7 +452,9 @@ def comp_val_acc(
             val_loss2 += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (classes[predicted_test[i]] == classes[labels_test[i]])
+                    .sum()
+                    .item()
                 )
                 n_val_acc2[correct] += 1
 
@@ -609,9 +623,14 @@ def fit_vec(
             # 損失計算
             outputs_test_sig = torch.sigmoid(outputs_test)
             labels_test_vec = torch.tensor(
-                [classes[labels_test[i].item()] for i in range(len(labels_test))]
+                [
+                    classes[labels_test[i].item()]
+                    for i in range(len(labels_test))
+                ]
             ).to(device)
-            loss_test = criterion(outputs_test_sig, labels_test_vec) * len(classes[0])
+            loss_test = criterion(outputs_test_sig, labels_test_vec) * len(
+                classes[0]
+            )
 
             # 予測ラベル導出
             predicted_test = torch.where(outputs_test_sig < 0.5, 0.0, 1.0)
@@ -621,7 +640,9 @@ def fit_vec(
             val_loss += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (classes[predicted_test[i]] == classes[labels_test[i]])
+                    .sum()
+                    .item()
                 )
                 n_val_acc[correct] += 1
 
@@ -640,7 +661,9 @@ def fit_vec(
             f"loss: {avg_train_loss:.5f} acc: {train_acc:.5f} val_loss: {avg_val_loss:.5f}, val_acc: {val_acc:.5f}"
         )
         # 記録
-        item = np.array([epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc])
+        item = np.array(
+            [epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc]
+        )
         history = np.vstack((history, item))
 
         # モデルを保存
@@ -842,8 +865,82 @@ def show_images_labels(loader, classes, net, device, program_name, save_dir):
         ax.set_axis_off()
     os.makedirs(save_dir, exist_ok=True)
     plt.savefig(os.path.join(save_dir, f"{program_name}_images.png"))
-    # plt.savefig("/mnt/image_labels.png")
     plt.show()
+
+
+# 間違えた画像を表示
+def show_incorrect_images_labels(loader, classes, net, device, save_dir):
+    incorrect_i = 0
+    image_count = 0
+    # DataLoaderから最初の1セットを取得する
+    incorrect_count = 0
+    all_count = 0
+    for images, labels in loader:
+        n_size = len(images)
+        all_count += n_size
+
+        if net is not None:
+            # デバイスの割り当て
+            inputs = images.to(device)
+            labels = labels.to(device)
+
+            # 予測計算
+            outputs = net(inputs)
+            predicted = torch.max(outputs, 1)[1]
+            images = images.to("cpu")
+
+        for i in range(n_size):
+            if incorrect_i % 15 == 0:
+                if incorrect_i == 15:
+                    plt.savefig(
+                        os.path.join(
+                            save_dir, f"incorrect_images_{image_count}.png"
+                        )
+                    )
+                    plt.clf()
+                    plt.close()
+                    image_count += 1
+                incorrect_i = 0
+                plt.figure(figsize=(20, 15))
+            label_name = classes[labels[i]]
+            # netがNoneでない場合は、予測結果もタイトルに表示する
+            predicted_name = classes[predicted[i]]
+            # 正解かどうかで色分けをする
+            if label_name != predicted_name:
+                incorrect_count += 1
+                ax = plt.subplot(3, 5, incorrect_i + 1)
+                incorrect_i += 1
+                c = "b"
+                ax.set_title(
+                    label_name + ":" + predicted_name, c=c, fontsize=20
+                )
+
+                # TensorをNumPyに変換
+                image_np = images[i].cpu().numpy().copy()
+                # 軸の順番変更 (channel, row, column) -> (row, column, channel)
+                img = np.transpose(image_np, (1, 2, 0))
+                # 値の範囲を[-1, 1] -> [0, 1]に戻す
+                img = (img + 1) / 2
+                # 結果表示
+                plt.imshow(img)
+                ax.set_axis_off()
+    plt.savefig(os.path.join(save_dir, f"incorrect_images_{image_count}.png"))
+    plt.clf()
+    plt.close()
+    plt.show()
+
+    result_f = open(
+        f"{save_dir}/abst.txt",
+        "a",
+        newline="\n",
+    )
+
+    datalines = [
+        "\n" f"総データ数: {all_count}\n",
+        f"間違えた画像の数: {incorrect_count}\n",
+    ]
+    result_f.writelines(datalines)
+    result_f.close()
 
 
 # PyTorch乱数固定用

@@ -2,7 +2,7 @@ nvidia = 1
 num_val = 8
 
 # model
-net = "vit_l_16"
+net = "vgg19_bn"
 weights = "IMAGENET1K_V1"
 # weights = "DEFAULT"
 
@@ -14,7 +14,7 @@ num_epochs = 25
 batch_size = 10
 
 # dataset
-which_data = "dataset1"
+which_data = "dataset0"
 train_data = "train"
 test_data = "test"
 

@@ -146,7 +146,9 @@ def fit(
             val_loss += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (classes[predicted_test[i]] == classes[labels_test[i]])
+                    .sum()
+                    .item()
                 )
                 n_val_acc[correct] += 1
 
@@ -166,7 +168,9 @@ def fit(
             f"loss: {avg_train_loss:.5f} acc: {train_acc:.5f} val_loss: {avg_val_loss:.5f}, val_acc: {val_acc[4]:.5f}"
         )
         # 記録
-        item = np.array([epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc])
+        item = np.array(
+            [epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc]
+        )
         history = np.vstack((history, item))
 
         # モデルを保存
@@ -362,7 +366,9 @@ def comp_val_acc(
             val_loss1 += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (classes[predicted_test[i]] == classes[labels_test[i]])
+                    .sum()
+                    .item()
                 )
                 n_val_acc1[correct] += 1
 
@@ -396,7 +402,9 @@ def comp_val_acc(
             val_loss2 += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (classes[predicted_test[i]] == classes[labels_test[i]])
+                    .sum()
+                    .item()
                 )
                 n_val_acc2[correct] += 1
 
@@ -563,9 +571,14 @@ def fit_vec(
             # 損失計算
             outputs_test_sig = torch.sigmoid(outputs_test)
             labels_test_vec = torch.tensor(
-                [classes[labels_test[i].item()] for i in range(len(labels_test))]
+                [
+                    classes[labels_test[i].item()]
+                    for i in range(len(labels_test))
+                ]
             ).to(device)
-            loss_test = criterion(outputs_test_sig, labels_test_vec) * len(classes[0])
+            loss_test = criterion(outputs_test_sig, labels_test_vec) * len(
+                classes[0]
+            )
 
             # 予測ラベル導出
             predicted_test = torch.where(outputs_test_sig < 0.5, 0.0, 1.0)
@@ -575,7 +588,9 @@ def fit_vec(
             val_loss += loss_test.item() * test_batch_size
             for i in range(len(labels_test)):
                 correct = (
-                    (classes[predicted_test[i]] == classes[labels_test[i]]).sum().item()
+                    (classes[predicted_test[i]] == classes[labels_test[i]])
+                    .sum()
+                    .item()
                 )
                 n_val_acc[correct] += 1
 
@@ -594,7 +609,9 @@ def fit_vec(
             f"loss: {avg_train_loss:.5f} acc: {train_acc:.5f} val_loss: {avg_val_loss:.5f}, val_acc: {val_acc:.5f}"
         )
         # 記録
-        item = np.array([epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc])
+        item = np.array(
+            [epoch + 1, avg_train_loss, train_acc, avg_val_loss, *val_acc]
+        )
         history = np.vstack((history, item))
 
         # モデルを保存
@@ -803,7 +820,9 @@ def show_images_labels(loader, classes, net, device, save_dir, data_name):
 
 
 # 間違えた画像を表示
-def show_incorrect_images_labels(loader, classes, net, device, save_dir, data_name):
+def show_incorrect_images_labels(
+    loader, classes, net, device, save_dir, data_name
+):
     # DataLoaderから最初の1セットを取得する
     for images, labels in loader:
         # 表示数は50個とバッチサイズのうち小さい方
@@ -830,7 +849,9 @@ def show_incorrect_images_labels(loader, classes, net, device, save_dir, data_na
                 ax = plt.subplot(5, 10, i + 1)
                 incorrect_i += 1
                 c = "b"
-                ax.set_title(label_name + ":" + predicted_name, c=c, fontsize=20)
+                ax.set_title(
+                    label_name + ":" + predicted_name, c=c, fontsize=20
+                )
 
                 # TensorをNumPyに変換
                 image_np = images[i].numpy().copy()

@@ -6,22 +6,12 @@ import time
 from datetime import datetime
 
 import matplotlib.pyplot as plt
-import numpy as np
 import torch
-import torch.nn as nn
-import torch.optim as optim
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 
-from pythonlibs.my_torch_lib import (
-    evaluate_history,
-    fit,
-    save_history_to_csv,
-    show_images_labels,
-    torch_seed,
-)
-from utils.const import model_mapping
+from pythonlibs.my_torch_lib import show_incorrect_images_labels, torch_seed
 from utils.load_save import load_config
 
 plt.rcParams["font.size"] = 18
@@ -120,14 +110,19 @@ test_loader_for_check = DataLoader(
     test_data, batch_size=50, num_workers=2, pin_memory=True, shuffle=True
 )
 
-net = model_mapping[config.net](weights=config.weights)
+model_path = os.path.join(
+    os.path.expanduser("~/dx"),
+    "result/dataset0/2024-06-13_16-47-00/epoch99.pth",
+)
+
+net = torch.load(model_path, map_location=device)
 
 
 torch_seed()
 
-if config.transfer:
-    for param in net.parameters():
-        param.requires_grad = False
+# if config.transfer:
+#     for param in net.parameters():
+#         param.requires_grad = False
 
 # vitを使うときはこれ
 # fc_in_features = net.heads.head.in_features
@@ -138,49 +133,56 @@ if config.transfer:
 # net.fc = nn.Linear(fc_in_features, 16)
 
 # vggなどを使うときはこっち
-in_features = net.classifier[6].in_features
-net.classifier[6] = nn.Linear(in_features, 16)
-net.avgpool = nn.Identity()
+# in_features = net.classifier[6].in_features
+# net.classifier[6] = nn.Linear(in_features, 16)
+# net.avgpool = nn.Identity()
 
 
-net = net.to(device)
+# net = net.to(device)
 
-criterion = nn.CrossEntropyLoss()
+# criterion = nn.CrossEntropyLoss()
 
-optimizer = optim.SGD(net.parameters(), lr=config.lr, momentum=config.momentum)
+# optimizer = optim.SGD(net.parameters(), lr=config.lr, momentum=config.momentum)
 
-history = np.zeros((0, 11))
+# history = np.zeros((0, 11))
 
 
-num_epochs = config.num_epochs
+# num_epochs = config.num_epochs
 
-history = fit(
-    net,
-    optimizer,
-    criterion,
-    num_epochs,
-    classes,
-    train_loader,
-    test_loader,
-    device,
-    history,
-    program_name,
-    save_dir,
-    which_data,
-    True,
-    True,
-)
+# history = fit(
+#     net,
+#     optimizer,
+#     criterion,
+#     num_epochs,
+#     train_loader,
+#     test_loader,
+#     device,
+#     history,
+#     program_name,
+#     save_dir,
+#     which_data,
+#     True,
+#     True,
+# )
 
-save_history_to_csv(history, save_dir)
+# save_history_to_csv(history, save_dir)
 
-evaluate_history(history, save_dir, config.train_data)
+# evaluate_history(history, save_dir, config.train_data)
 
-show_images_labels(
+# show_images_labels(
+#     test_loader_for_check,
+#     classes,
+#     net,
+#     device,
+#     program_name + config.train_data,
+#     save_dir,
+# )
+
+show_incorrect_images_labels(
     test_loader_for_check,
     classes,
     net,
     device,
-    program_name + config.train_data,
     save_dir,
 )
 
