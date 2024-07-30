@@ -19,6 +19,7 @@ from pythonlibs.my_torch_lib import (
     fit,
     save_history_to_csv,
     show_images_labels,
+    show_incorrect_images_labels,
     torch_seed,
 )
 from utils.const import model_mapping
@@ -129,6 +130,7 @@ if config.transfer:
     for param in net.parameters():
         param.requires_grad = False
 
+
 # vitを使うときはこれ
 # fc_in_features = net.heads.head.in_features
 # net.heads.head = nn.Linear(fc_in_features, 16)
@@ -139,9 +141,8 @@ if config.transfer:
 
 # vggなどを使うときはこっち
 in_features = net.classifier[6].in_features
-net.classifier[6] = nn.Linear(in_features, 16)
+net.classifier[6] = nn.Linear(in_features, len(classes))
 net.avgpool = nn.Identity()
-
 
 net = net.to(device)
 
@@ -181,6 +182,14 @@ show_images_labels(
     net,
     device,
     program_name + config.train_data,
+    save_dir,
+)
+
+show_incorrect_images_labels(
+    test_loader_for_check,
+    classes,
+    net,
+    device,
     save_dir,
 )
 
